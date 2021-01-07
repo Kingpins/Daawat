@@ -1,0 +1,51 @@
+{% extends 'base_menu.html'%}
+{%load static%}
+{% block menu_content %}
+{%if hotel_exists %}
+{%if request.session.customer_id%}
+<div class="container">
+    <div class="p-2 m-2">
+        <div class="col-lg-5 rounded mx-auto border pt-4">
+            <div class="text-center col">
+                <div class="display-8">You have already registered! <a href="/add_customer">Go to menu</a> </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+{%else%}
+<div style="display:block; background-image: url('{% static 'images/bg4.jpg' %}'); background-size:cover;">
+    <div class="container p-4">
+        <div class="col-lg-5 rounded mx-auto border pt-4" style="box-shadow: 5px 5px 20px 5px grey; background:white">
+            <div class="text-center col">
+                <img src="{{hotel_details.hotel_logo}}"
+                    alt="" class="" style="height: 150px;">
+                <div class="display-8" id="typing_effect"></div>
+                <hr>
+            </div>
+            <form action="/add_customer" method="POST">
+                {% csrf_token %}
+                <div class="form-outline">
+                    <label for="input1" calss="form-label">Your Name</label>
+                    <input required type="text" name="customer_name" id="input1" value=""
+                      class="form-control" >
+                  </div>
+
+                  <div class="form-outline">
+                    <label for="input2" calss="form-label">Table Number</label>
+                    <input required readonly type="text" name="table_no" id="input2" value="{{request.session.table_no}}"
+                      class="form-control" >
+                  </div>
+                <hr>
+                <div class="form-group">
+                    <input class="btn btn-sm btn-info text-center col" type="submit" value="Go to menu">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{%endif%}
+{% else %}
+Unauhorized Access
+{% endif %}
+{% endblock %}

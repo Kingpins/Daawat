@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid" style="margin:0px;padding:20px;">
+	{%include 'messages.html'%}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 " style="margin: auto; text-align:center">
+				<img height="250px" src="{% static 'images/carousel1.png' %}" />
+			</div>
+			<div class="col-lg-6" style="margin: auto;">
+				<h2 class="heading">Welcome to Daawat!</h2>
+				<p class="lead">a brand new digitalised menu system for hotels, transforming the hotel experience digitally, create your digital menu card and start offering dawaat! </p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid" style="margin:0px;padding:50px;">
+	<div class="container rounded" style="padding:20px; box-shadow: 20px 20px 50px 10px grey;">
+		<div class="row">
+			<div class="col-lg-6 " style="margin: auto;">
+				<h2 class="heading" id="typing_effect"></h2>
+			</div>
+			<div class="col-lg-6" style="margin: auto;">
+				{% if request.session.user %}
+				<p class="lead">All your task of creating menu, monitering orders from customer and printing out invoices are made easy with Daawat.</p>
+				<p><a class="btn btn-primary" href="/hotel" role="button"><i class="fa fa-home" aria-hidden="true"></i> Go to Dashboard</a></p>
+				{% else %}
+				<p class="lead">You are just one step away from digitazing your restaurant with Daawat, create an account now and be a part of revolution.</p>
+				<p><a class="btn btn-primary" href="/signup" role="button"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign up today </a></p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid" style="padding-top:45px;padding-bottom:35px;background-color:blanchedalmond" id="about">
+	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+		<ol class="carousel-indicators">
+			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="1" ></li>
+			<li data-target="#carouselExampleIndicators" data-slide-to="2" ></li>
+		</ol>
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<div class="container">
+					<div class="row" style="text-align: center;">
+						<div class="col-lg-6" style="margin: auto;text-align:left">
+							<h2 class="heading">Touch free Ordering</h2>
+							<p class="lead">Revolutionary contactless ordering from Daawat. Complete digitalization from menu, ordering , 
+								payments to feedback - both for customers and staff. Reduce costs and optimise operations. </p>
+						</div>
+						<div class="col-lg-6 pb-4" style="margin: auto;">
+							<img height="250px" src="{% static 'images/carousel2.png' %}" alt="First slide">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<div class="container">
+					<div class="row" style="text-align: center;">
+						<div class="col-lg-6 pb-4" style="margin: auto;">
+							<img height="250px" src="{% static 'images/shopping-basket.png' %}" alt="Second slide">
+						</div>
+						<div class="col-lg-6" style="margin: auto;text-align:left">
+							<h2 class="heading">Order what you love</h2>
+							<p class="lead">The digitalized menu system allow customers, to visualize food and read its description, finally place the order! </p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<div class="container">
+					<div class="row" style="text-align: center;">
+						<div class="col-lg-6" style="margin:auto;text-align:left">
+							<h2 class="heading">Astra Datastax cloud-site</h2>
+							<p class="lead">The site is designed with the upmost security, middleware and have a strong backend of Astra Datastax CQL, Thus allowing user to take good control of hotel management.</p>
+						</div>
+						<div class="col-lg-6 pb-4" style="margin: auto;">
+							<img height="250px" src="{% static 'images/operating-system.png' %}" alt="Third slide">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+</div>
+
+
+<div class="container-fluid" style="background:#f2f2f2;margin:0px;padding:20px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 pb-4" style="margin: auto; text-align:center">
+				<img width="400px" src="{% static 'images/phone.png' %}" />
+			</div>
+			<div class="col-lg-6" style="margin: auto;">
+				<h2 class="heading">Revolutionary QR based Hotel Menu Digitalization</h2>
+				<p class="lead">No app install, no subscriptions.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="container-fluid" style="padding-top:45px;padding-bottom:35px">
+	<h1 class="heading" class="mb-4" style="text-align: center;">How it works ?</h1>
+	<div class="container">
+		<div class="row" style="text-align: center;">
+			<div class="col-lg-4">
+				<img height="200px" class="pb-4" src="{% static 'images/qr.png' %}" />
+				<h2 class="heading">Scanning QR code</h2>
+				<p class="lead">The customer will scan the QR code through his mobile, and the whole menu of your restaurant will be displayed in his device. </p>
+			</div><!-- /.col-lg-4 -->
+			<div class="col-lg-4">
+				<img height="200px" class="pb-4" src="{% static 'images/service1.jpg' %}" />
+				<h2 class="heading">Place order</h2>
+				<p class="lead">The customer will start placing the order, until he clicks make my bill option which will also be available in his very own device.</p>
+			</div><!-- /.col-lg-4 -->
+			<div class="col-lg-4">
+				<img height="200px" class="pb-4" src="{% static 'images/moniter.png' %}" />
+				<h2 class="heading">Monitoring</h2>
+				<p class="lead">Your job as an owner is to sit relax and monitor all the activities from your Dashboard, and start serving Daawat with our Daawat!</p>
+			</div><!-- /.col-lg-4 -->
+		</div><!-- /.row -->
+	</div>
+</div>
+{% endblock %}

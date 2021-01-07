@@ -1,0 +1,175 @@
+{% extends 'base_menu.html' %}
+{%load static%}
+{% block menu_content %}
+{% load cart %}
+{% load custom_filter %}
+{% if request.session.customer_id or request.session.hotel_id%}
+<div class="container">
+  <div class="border rounded mt-4 pt-4" id="mobile_responsive">
+    <p class="display-4 pl-4 ml-4">Your Bill</p>
+    <hr>
+    {%include 'messages.html'%}
+    <div class="small-container cart-page">
+      <table>
+        <tr>
+          <th>Sno.</th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>SubTotal</th>
+        </tr>
+
+        {% for order in orders %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          {% for product in products %}
+          {%if order.product == product.food_id%}
+
+          <td>
+            <div class="cart-info">
+              <img src="{{product.food_img}}" style="height: 80px; width: 80px;" alt="">
+              <div>
+                {{product.food_name}}
+                <br>
+                {{product.food_price|currency}}
+                <br>
+                {%if order.status %}
+            <span style="text-align: left;"><small class="badge badge-success">Served</small></span>
+            {%else%}
+            <span style="text-align: left;"><small class="badge badge-warning">Not Served</small></span>
+            {%endif%}
+              </div>
+            </div>
+          </td>
+          <td>
+            {{order.quantity}}
+          </td>
+          <td>{{product.food_price|price_total_in_order:order.quantity|currency}}
+          </td>
+          
+        </tr>
+        {%endif%}
+        {%endfor%}
+        {%endfor%}
+      </table>
+
+      <div class="total-price">
+        <table>
+          <tr>
+            <td>Total</td>
+            <td>{{orders|total_order_price|currency}}</td>
+          </tr>
+        </table>
+      </div>
+      <hr>
+      {% if allow_bill %}
+      <div class="m-3 p-3">
+        <a href="#" data-toggle="modal" data-target="#exampleModal"
+          class="btn btn-outline-info border rounded  col-lg-3 float-right">Make My Bill</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="border rounded p-4 m-4" id="desktop_responsive">
+    <p class="display-4 pl-4 ml-4">Your Bill</p>
+    <hr>
+    {%include 'messages.html'%}
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Sno.</th>
+            <th>Image</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for order in orders %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            {% for product in products %}
+            {%if order.product == product.food_id%}
+
+
+            <td><img style="height: 80px; width:80px" src="{{product.food_img}}" alt=""></td>
+            <td>{{product.food_name}}</td>
+            <td>{{product.food_price|currency}}</td>
+            <td>{{order.quantity}}</td>
+            {%if order.status %}
+            <td><small class="badge badge-success">Served</small></td>
+            {%else%}
+            <td><small class="badge badge-warning">Not Served</small></td>
+            {%endif%}
+            <td>{{product.food_price|price_total_in_order:order.quantity|currency}}</td>
+
+            {%endif%}
+            {%endfor%}
+
+            {%endfor%}
+        </tbody>
+
+        <tfoot>
+          <tr>
+
+            <th colspan="5"></th>
+            <th class="" colspan="">Grand Total</th>
+            <th>{{orders|total_order_price|currency}}</th>
+
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <hr>
+    {% if allow_bill %}
+    <div class="m-3 p-3">
+      <a href="#" data-toggle="modal" data-target="#exampleModal"
+        class="btn btn-outline-info border rounded  col-lg-3 float-right">Make My Bill</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+
+<!-- modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Make Your bill !
+        </h5>
+        <hr>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="m-2 p-3">
+          <b>Make sure you have ordered all your favourite dishes! Thank you for dining with us, Vist Again!!</b><br>
+          <hr>
+          <p><b>DAAWAT is the one who has created this digitalised menu system experience for you, Enjoy Your
+              DAAWAT.</b></p><br>
+          <hr>
+          <form action="/create_invoice" method="POST">
+            {% csrf_token %}
+            <input hidden type="text" name="grand_total" value="{{orders|total_order_price}}" />
+            <input type="submit" class="btn float-right btn-outline-info col-lg-6" value="Make Bill">
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{%else%}
+Unauhorized Access
+{% endif %}
+{% endblock %}

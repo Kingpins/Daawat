@@ -1,0 +1,36 @@
+{% extends 'base_menu.html'%}
+{%load static%}
+{% block menu_content%}
+{% if request.session.customer_id %}
+<div class="container-fluid" style=" background-image: url('{% static 'images/bg6.jpg' %}'); background-size:cover;">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <p class="display-8 col text-center p-2" style="color: white;">Different Categories</p>
+            <div class="row mx-auto">
+                {% for category in categories %}
+                <div class="card mx-auto mb-3 product-card" id={{category.category_id}} style="width: 15rem; box-shadow: 5px 5px 40px 10px grey;"
+                    id="product-card">
+                    <img class="card-img-top" style="margin:auto;height:200px" src="{{category.category_img}}"
+                        alt="Card image cap">
+                    <div class="card-body text-center">
+                        <p class="card-title" style="font-size: large;"><b>{{category.category_name}}</b></p>
+                    </div>
+                    <div class="card-footer p-0 no-gutters">
+                        <div class="row no-gutters">
+                            <form action="/main_menu" class="col mx-auto w-100" method="post" style="text-align: center;">
+                                {%csrf_token%}
+                                <input type="submit" class="btn btn-outline-info border rounded" value="Dishes" />
+                                <input type="hidden" name="category_name" value="{{category.category_name}}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{%else%}
+Unauhorized Access
+{% endif %}
+{%endblock%}

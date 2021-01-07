@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{%if request.session.user %}
+<div class="container">
+    <div class="border rounded p-4 m-4">
+        <p class="display-4 pl-4 ml-4"><i class="fa fa-list-alt" aria-hidden="true"></i> All Current Orders</p>
+        <hr>
+        <div id="accordion">
+            {% for customer in customers %}
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button style="width:100%" class="btn collapsed" data-toggle="collapse"
+                            data-target="#{{forloop.counter}}" aria-expanded="true" aria-controls="collapseOne">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer Name: </th>
+                                            <th>{{customer.customer_name|capfirst}} </th>
+                                            <th>Table No: </th>
+                                            <th>{{customer.table_no}}</th>
+                                            {% if customer.status %}
+                                            <th>Status </th>
+                                            <th><span class="badge badge-success">Currently Dining</span></th>
+                                            {%else%}
+                                            <form action="/allorders"
+                                                onsubmit="return confirm('Do you really want to give access?');"
+                                                class="col-6" method="post" style="text-align: center;">
+                                                {%csrf_token%}
+                                                <th>Status</th>
+                                                <th><input type="submit" class="btn btn-outline-info border rounded"
+                                                        value="Access for menu" /></th>
+                                                <input type="hidden" name="customer_id"
+                                                    value="{{customer.customer_id}}" />
+                                            </form>
+                                            <form action="/decline"
+                                                onsubmit="return confirm('Do you really want deny access?');"
+                                                class="col-6" method="post" style="text-align: center;">
+                                                {%csrf_token%}
+                                                <th><input type="submit" class="btn btn-outline-info border rounded"
+                                                        value="Decline" /></th>
+                                                <input type="hidden" name="customer_id"
+                                                    value="{{customer.customer_id}}" />
+                                            </form>
+                                            {%endif%}
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="{{forloop.counter}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Sno.</th>
+                                        <th>Image</th>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                        <th>Order Time</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for order in orders %}
+                                    {%if order.customer_id == customer.customer_id %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        {% for product in products %}
+                                        {%if order.product == product.food_id%}
+                                        <td><img style="height: 80px; width:80px;" src="{{product.food_img}}" alt=""></td>
+                                        <td>{{product.food_name}}</td>
+                                        <td>{{product.food_price|currency}}</td>
+                                        <td>{{order.quantity}}</td>
+                                        <td>{{product.food_price|price_total_in_order:order.quantity|currency}}</td>
+                                        <td>{{order.time_of_order|change_to_date}}</td>
+                                        {%if order.status %}
+                                        <td><small class="badge badge-success">Served</small></td>
+                                        {%else%}
+                                        <td>
+                                            <form action="/order_status"
+                                             method="post" stle="text-align: center;">
+                                                {%csrf_token%}
+                                                <input type="submit" class="btn btn-outline-info border rounded"
+                                                        value="Served" />
+                                                <input type="hidden" name="customer_id"
+                                                    value="{{customer.customer_id}}" />
+                                                    <input type="hidden" name="order_id"
+                                                    value="{{order.order_id}}" />
+                                                <input type="hidden" name="time_of_order"
+                                                    value="{{order.time_of_order}}" />
+                                            </form>
+                                        </td>
+                                        {%endif%}
+                                        {%endif%}
+                                        {%endfor%}
+                                        </tr>
+                                        {%endif%}
+                                        {%endfor%}
+                                        {%for invoice in invoices %}
+                                        {%if invoice.customer_id == customer.customer_id%}
+                                        <tr>
+                                            <th>Invoice No</th>
+                                            <th>{{invoice.invoice_id}}</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Grand Total</th>
+                                            <th>{{invoice.grand_total}}</th>
+                                            <th></th>
+                                            <th>
+                                                <form action="/bill_paid"
+                                             method="post" stle="text-align: center;">
+                                                {%csrf_token%}
+                                                <input type="submit" onsubmit="return confirm('Have the customer paid the bill?');" class="btn btn-outline-info border rounded"
+                                                        value="Bill Paid" />
+                                                <input type="hidden" name="customer_id"
+                                                    value="{{invoice.customer_id}}">
+                                                    <input type="hidden" name="invoice_id"
+                                                    value="{{invoice.invoice_id}}" />
+                                                    <input type="hidden" name="time_of_invoice"
+                                                    value="{{invoice.time_of_invoice|change_to_date}}" />
+                                                    <input type="hidden" name="grand_total"
+                                                    value="{{invoice.grand_total}}" />
+                                            </form>
+                                            </th>
+                                        </tr>
+                                        {%endif%}
+                                        {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+
+    </div>
+</div>
+</div>
+{%else%}
+
+<div class="container">
+    <div class="border rounded p-2 m-2">
+        <p class="display-4 pl-2 ml-2">You are not permitted to visit this site.</p>
+    </div>
+</div>
+
+{%endif%}
+
+
+
+
+{% endblock %}

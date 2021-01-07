@@ -1,0 +1,25 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daawat</title>
+    <meta http-equiv="refresh" content="15">
+</head>
+<body>
+{%if request.session.customer_id %}
+<div style="margin: 50px;">
+    <strong>Admin should grant access for menu, which will not take more than 15 seconds,
+    this page will reload automatically, if not please load by yourself.</strong>
+</div>
+{%else%}
+Unauthorized access
+{%endif%}
+</body>
+</html>
+    
+
+
+
+

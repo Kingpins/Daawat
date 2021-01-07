@@ -1,0 +1,62 @@
+{% extends 'base_menu.html'%}
+{% load cart %}
+{% load custom_filter %}
+{% block menu_content%}
+{% if request.session.customer_id %}
+<div class="container-fluid mt-2 ">
+    {%include 'messages.html'%}
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <p class="display-8 col text-center p-2">Dishes in {{request.session.category_name}}</p>
+            <div class="row mx-auto">
+                {% for food in foods %}
+                <div class="card mx-auto mb-2 product-card" id={{food.food_id}} style="width: 15rem;" id="product-card">
+                    <img class="card-img-top" style="margin:auto;width:150px;height:150px" src="{{food.food_img}}"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <span class="card-title" style="font-size:large"><b>{{food.food_name}}</b></span><br>
+                        <span class="card-text" style="font-size:large">
+                            <b>{{food.food_price|currency}}</b></span><br>
+                        <span class="card-title" style="font-size:large">Descrpition: </span>
+                        <span class="card-text">
+                            <b></b>{{food.food_description}}</b></span>
+                    </div>
+                    <div class="card-footer p-0 no-gutters">
+                        {% if food|is_in_cart:request.session.cart %}
+                        <div class="row no-gutters">
+                            <form action="/main_items#{{food.food_id}}" class="col-2" method="post">
+                                {% csrf_token %}
+                                <input hidden type="text" name='product' value='{{food.food_id}}'>
+                                <input hidden type="text" name='remove' value='True'>
+                                <input type="submit" value=" - " class="btn btn-block btn-light border-right">
+                            </form>
+                            <div class="text-center col">{{food|cart_quantity:request.session.cart}} in Cart</div>
+                            <form action="/main_items#{{food.food_id}}" class="col-2 " method="post">
+                                {% csrf_token %}
+                                <input hidden type="text" name='product' value='{{food.food_id}}'>
+                                <input type="submit" value=" + " class="btn btn-block btn-light border-left">
+                            </form>
+                        </div>
+                        {% else %}
+                        <form action="/main_items#{{food.food_id}}" method="POST" class="btn-block">
+                            {% csrf_token %}
+                            <input hidden type="text" name='product' value='{{food.food_id}}'>
+                            <input type="submit" class="float-right btn btn-light  form-control" value="Add To Cart">
+                        </form>
+                        {% endif %}
+                    </div>
+                   
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{%else%}
+Unauhorized Access
+{% endif %}
+{%endblock%}

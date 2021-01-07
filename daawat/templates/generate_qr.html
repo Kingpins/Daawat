@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% if request.session.hotelid %}
+{%include 'messages.html'%}
+<div class="container-fluid mt-3">
+  <div class="row">
+
+    <div class="col-lg-6 mx-auto" id="">
+      <div class="container mt-2">
+        <div class="p-4 m-4">
+          <div class=" rounded mx-auto border p-4">
+            <div class="text-center col">
+              <img src="{{hotel_details.hotel_logo}}" alt="" class="" style="height: 150px;">
+              <div class="display-8">Generate QR Menu</div>
+              <hr>
+            </div>
+            <form action="/generate_qr" method="POST">
+              {% csrf_token %}
+              <div class="form-outline">
+                <label for="input1" calss="form-label">Hotel Name</label>
+                <input readonly required type="text" name="hotel_name" id="input1" value="{{hotel_details.hotel_name}}"
+                  class="form-control form-control-sm">
+              </div>
+
+              <div class="form-outline">
+                <label for="input2" calss="form-label">Hotel Id</label>
+                <input readonly required type="text" name="hotel_id" id="input2" value="{{hotel_details.hotel_id}}"
+                  class="form-control form-control-sm">
+              </div>
+
+
+              <div class="form-group">
+                <label for="select1" calss="form-label">Table No</label>
+                <select required type="text" name="table_no" id="select1" class="form-control form-control-sm">
+                  {% for i in hotel_tables %}
+                  <option value="{{i}}">{{i}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <hr>
+              <div class="form-group">
+                <input class="btn btn-sm btn-info" type="submit" value="Generate QR">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id='' class="col-lg-6 mx-auto">
+      <div class="container mt-2">
+        <div class="p-4 m-4">
+          <div class="rounded mx-auto border p-4">
+            <div class="text-center col mx-auto">
+              <img src="{{qr_details.qr_image}}" alt="QR Imgae will be displayed here." width="300px">
+            </div>
+            <div class="text-center col mx-auto">
+              For Table No: {{qr_details.table_no}}
+            </div>
+            <div class="mt-2 text-center col">
+              <a href="/{{hotel_details.hotel_id}}/{{qr_details.table_no}}"
+                class="btn btn-outline-info border rounded ">Go to menu</a>
+            </div>
+            <div class="mt-2 text-center col">
+              <form action="/print_qr" method="POST">
+                {%csrf_token%}
+              <input hidden type="text" value="{{qr_details.qr_image}}" name="image_url" />
+              <input hidden type="text" value="{{qr_details.table_no}}" name="table_no" />
+              <input type="submit" class="btn btn-outline-info border rounded " value="Print">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% else %}
+<div id='' class="col-lg-6 mx-auto">
+  <div class="container mt-2">
+    <div class="p-4 m-4">
+      <div class="rounded mx-auto border p-4">
+        Unauthorized Access, Please create a hotel account first!
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endif %}
+{% endblock %}

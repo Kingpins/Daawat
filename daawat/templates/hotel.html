@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart %}
+{% load custom_filter %}
+{% block content %}
+<style>
+  .product-card {
+    transition: transform 0.5s;
+  }
+
+  .product-card:hover {
+    transform: translateY(-8px)
+  }
+
+  #mobile_responsive {
+    display: none;
+  }
+
+  @media only screen and (max-width: 768px) {
+
+    /* For mobile phones: */
+    #mobile_responsive {
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    #desktop_responsive {
+      display: none
+    }
+  }
+</style>
+{% if request.session.hotelid %}
+{%include 'messages.html'%}
+<div class="container-fluid"
+  style="display:block; background-image: url('{% static 'images/bg3.jpg' %}'); background-size:cover; background-attachment:fixed">
+  <div class="container">
+    <div class="row mx-auto p-4">
+      <div class="display-10 col-lg-12 mx-auto" style="color:white;">
+        <img src={{hotel_details.hotel_logo}} width="200px"><br>
+        <div class="display-4">{{hotel_details.hotel_name}}</div>
+        <div> <i class="fa fa-info-circle" aria-hidden="true"></i> About : {{hotel_details.hotel_bio}}</div>
+        <div><i class="fa fa-address-book" aria-hidden="true"></i> {{hotel_details.hotel_address}}</div>
+        <div><i class="fa fa-phone" aria-hidden="true"></i> {{hotel_details.hotel_phone}}</div>
+        <div><i class="fa fa-table" aria-hidden="true"></i> Number of Tables : {{hotel_details.hotel_tables}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container-fluid">
+  <div class="container">
+    <div class="p-4">
+      <a href="#" data-toggle="modal" data-target="#exampleModal1"
+        class="btn btn-outline-info border rounded  col-lg-3 "><i class="fa fa-plus-square" aria-hidden="true"></i> Add Category</a>
+      {% if category_exists %}
+      <a href="#" data-toggle="modal" data-target="#exampleModal2"
+        class="btn btn-outline-info border rounded  col-lg-3 "><i class="fa fa-plus-square" aria-hidden="true"></i> Add Food</a>
+        <a href="/generate_qr" 
+        class="btn btn-outline-info border rounded  float-right col-lg-3 ">Generate QR</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="container pb-2">
+  <hr>
+</div>
+<div class="container-fluid mt-3">
+  <div class="row">
+    <!-- filter -->
+    <div class="col-lg-3 mx-auto" id="desktop_responsive">
+      <div class="sticky-top" style="top:70px">
+        <div class="list-group">
+          <form action="/hotel" method="POST" style="padding-bottom:20px">
+            {% csrf_token %}
+            <a href="/hotel" class="list-group-item list-group-item-action">All Products</a>
+            {% for category in categories %}
+            <input type="hidden" name="currentCategory" value="{{currentCategory}}" />
+            <input type="submit" class="list-group-item list-group-item-action" name="categoryBtn"
+              value="{{category.category_name}}">
+            {% endfor %}
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- all products -->
+    <div id='products' class="col-lg-9 col-xs-9 mx-auto">
+      {% if currentCategory == None or currentCategory == "None" %}
+      <p class="display-8">All Dishes</p>
+      {% else %}
+      <p class="display-8 pb-8 ">Category / {{categoryNameforDisplay}}</p>
+      {% endif %}
+      <div class="row mx-auto">
+        {% for product in products %}
+        <div class="card mx-auto mb-3 product-card" id={{product.food_id}} style="width: 15rem;" id="product-card">
+          <img class="card-img-top" style="margin:auto;height:200px" src="{{product.food_img}}"
+            alt="Card image cap">
+          <div class="card-body">
+            <p class="card-title">{{product.food_name}}</p>
+            <p class="card-text" style="display: inline-block; font-size:large">
+              <b>{{product.food_price|currency}}</b></p><br>
+            Description:<br>
+            <p class="card-text" style="display: inline-block; ">
+              <b>{{product.food_description}}</b></p>
+          </div>
+          <div class="card-footer p-0 no-gutters">
+            <div class="row no-gutters">
+              <form action="/delete_food" onsubmit="return confirm('Do you really want to delete this food item?');"
+                class="col-6" method="post" style="text-align: center;">
+                {%csrf_token%}
+                <input type="submit" class="btn btn-outline-info border rounded" value="Delete" />
+                <input type="hidden" name="food_id" value="{{product.food_id}}" />
+              </form>
+              <form action="/update_food" class="col-6" method="get" style="text-align: center;">
+               <input type="submit" class="btn btn-outline-info border rounded" value="Update" />
+                <input type="hidden" name="food_id" value={{product.food_id}}>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Category Modal -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Category
+        </h5>
+        <hr>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="m-2 p-3">
+          <form action="/category" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="">Category Name</label>
+              <input required type="text" name="category_name" id="" class="form-control" placeholder=""
+                aria-describedby="helpId">
+            </div>
+            <div class="form-group">
+              <label for="">Category Image</label>
+              <input required type="file" name="category_img" id="" class="form-control form-control-sm">
+            </div>
+            <input type="submit" class="btn float-right btn-outline-info col-lg-6" value="Add Category">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Food Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Food
+        </h5>
+        <hr>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="m-2 p-3">
+          <form action="/food" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="">Food Name</label>
+              <input required type="text" name="food_name" id="" class="form-control" placeholder=""
+                aria-describedby="helpId">
+            </div>
+            <div class="form-group">
+              <label for="">Food Category</label>
+              <select name="category_name" class="form-control">
+                {% for c in categories %}
+                <option value="{{c.category_name}}">{{c.category_name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="">Food Price</label>
+              <input required type="number" name="food_price" id="" class="form-control" placeholder=""
+                aria-describedby="helpId">
+            </div>
+            <div class="form-group">
+              <label for="">Food Description</label>
+              <input required type="text" name="food_description" id="" class="form-control" placeholder=""
+                aria-describedby="helpId">
+            </div>
+            <div class="form-group">
+              <label for="">Food Image</label>
+              <input required type="file" name="food_img" id="" class="form-control form-control-sm">
+            </div>
+            <input type="submit" class="btn float-right btn-outline-info col-lg-6" value="Add Food">
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% else %}
+<!-- Creating hotel -->
+<div style="display:block; background-image: url('{% static 'images/bg1.jpg' %}'); background-size:100% 100%;">
+  <div class="p-4">
+    <div class="col-lg-5 rounded mx-auto border pt-4"
+      style="background-color:white; box-shadow: 10px 10px 30px 10px grey; ">
+      <div class="text-center col">
+        <img src="{% static 'images/store.png' %}" alt="" class="" style="height: 100px;">
+        <div class="display-8">About your hotel</div>
+        <hr>
+      </div>
+      <form action="/hotel" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if error%}
+        <div class="alert alert-danger" role="alert">
+          {{error}}
+        </div>
+        {% endif %}
+        <div class="form-group">
+          <label for="">Hotel Name</label>
+          <input required type="text" name="hotel_name" id="" value="{{values.hotel_name}}"
+            class="form-control form-control-sm" placeholder="">
+        </div>
+
+
+        <div class="form-group">
+          <label for="">Descprition or About Hotel</label>
+          <input required type="text" name="hotel_bio" id="" value="{{values.hotel_bio}}"
+            class="form-control form-control-sm">
+        </div>
+
+        <div class="form-group">
+          <label for="">Hotel Address</label>
+          <input required type="text" name="hotel_address" id="" value="{{values.hotel_address}}"
+            class="form-control form-control-sm">
+        </div>
+
+        <!-- phone -->
+        <div class="form-group">
+          <label for="">Hotel Phone</label>
+          <input required type="text" name="hotel_phone" id="" class="form-control form-control-sm"
+            value="{{values.hotel_phone}}" placeholder="9876543210" maxlength="10">
+        </div>
+
+        <div class="form-group">
+          <label for="">No of Tables</label>
+          <input required type="text" name="hotel_tables" id="" value="{{values.hotel_tables}}"
+            class=" form-control-sm form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="">Hotel Logo</label>
+          <input required type="file" name="hotel_logo" id="" class="form-control form-control-sm">
+        </div>
+
+        <hr>
+        <div class="form-group">
+          <input class="btn btn-sm btn-info" type="submit" value="Create Hotel">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
