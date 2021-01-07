@@ -182,7 +182,7 @@ def generate_qr(request):
                     request.session['table_no'] = table_no
                     return redirect("generate_qr")
  
-        qr_string = "http://127.0.0.1:8000/"+hotel_id+"/"+table_no
+        qr_string = "https://daawat-menu.herokuapp.com/"+hotel_id+"/"+table_no
         image_name = hotel_name+table_no
         GenerateQR(qr_string,image_name)
         path_of_storage = os.path.join(BASE_DIR,'qr_images')
