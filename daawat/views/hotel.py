@@ -187,7 +187,7 @@ def generate_qr(request):
         GenerateQR(qr_string,image_name)
         path_of_storage = os.path.join(BASE_DIR,'qr_images')
 
-        storage_link = storage.child("hotelQR/"+hotel_name+table_no+".jpg").put(path_of_storage+"\\"+image_name+".png")
+        storage_link = storage.child("hotelQR/"+hotel_name+table_no+".jpg").put(path_of_storage+"/"+image_name+".png")
         if storage_link:
             qr_image = storage.child("hotelQR/"+hotel_name+table_no+".jpg").get_url(None)
         else:
