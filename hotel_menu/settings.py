@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '1to#em8#9%nfk)vg)c9@6q2-bjvhbw+liu@ksao!kroggn7igx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["192.168.43.170","127.0.0.1"]
+ALLOWED_HOSTS = ["daawat-menu.herokuapp.com","127.0.0.1"]
 
 
 # Application definition
