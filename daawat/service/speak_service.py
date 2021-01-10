@@ -6,7 +6,7 @@ from .firebase_service import *
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 def HotelIntro(HotelName,Bio):
-    text = "Hello, I'm Pari, Dear Customer, Welcome to " + HotelName +", This hotel is known for "+ Bio +", In order to begin your digital menu experience, Please provide your good name and click Go to menu button, Thank you."
+    text = "Dear Customer, Welcome to " + HotelName +", This hotel is known for "+ Bio +", In order to begin your digital menu experience, Please provide your good name and click Go to menu button, Thank you."
     myobj = gTTS(text=text,lang='en',slow=False,)
     path_of_storage = os.path.join(BASE_DIR,'audioclips')
     myobj.save(path_of_storage+"/"+HotelName+".mp3")
