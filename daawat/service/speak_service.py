@@ -10,7 +10,7 @@ def HotelIntro(HotelName,Bio):
     myobj = gTTS(text=text,lang='en',slow=False,)
     path_of_storage = os.path.join(BASE_DIR,'audioclips')
     myobj.save(path_of_storage+"\\"+HotelName+".mp3")
-    storage_link = storage.child("hotelAudioClips/"+HotelName+".mp3").put(path_of_storage+"\\"+HotelName+".mp3")
+    storage_link = storage.child("hotelAudioClips/"+HotelName+".mp3").put(path_of_storage+"/"+HotelName+".mp3")
     
 def HotelCategories(HotelCategories,HotelName):
     text = "The cuisine of our hotel are as follows,"
@@ -20,11 +20,11 @@ def HotelCategories(HotelCategories,HotelName):
     myobj = gTTS(text=text,lang='en',slow=False,)
     path_of_storage = os.path.join(BASE_DIR,'audioclips')
     myobj.save(path_of_storage+"\\"+HotelName+"Categories.mp3")
-    storage_link = storage.child("hotelAudioClips/"+HotelName+"Categories.mp3").put(path_of_storage+"\\"+HotelName+"Categories.mp3")
+    storage_link = storage.child("hotelAudioClips/"+HotelName+"Categories.mp3").put(path_of_storage+"/"+HotelName+"Categories.mp3")
 
 def PlaceOrder():
     text = "You can place as many order as you want, until you make your bill in the My Bill section, Thank You"
     myobj = gTTS(text=text,lang='en',slow=False,)
     path_of_storage = os.path.join(BASE_DIR,'audioclips')
     myobj.save(path_of_storage+"\\PlaceOrder.mp3")
-    storage_link = storage.child("hotelAudioClips/PlaceOrder.mp3").put(path_of_storage+"\\PlaceOrder.mp3")
+    storage_link = storage.child("hotelAudioClips/PlaceOrder.mp3").put(path_of_storage+"/PlaceOrder.mp3")
