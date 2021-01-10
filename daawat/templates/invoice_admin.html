@@ -47,11 +47,53 @@
     <body>
         <div class='wrapper'>
             <div class='header'>
-                QR IMAGE<br>
-                Table No: {{table_no}}<br>
-                <img src="{{image_url}}" width="400px"/>
+                {{data.hotel_details.hotel_name}}<br>
+                <span><small>{{data.hotel_details.hotel_address}}</small></span><br>
+                <span><small>{{data.hotel_details.hotel_phone}}</small></span>
+                <br>
+                Invoice Details
             </div>
         <div>
+        <div class='details'>
+            Invoice No: # {{invoice_id}}<br/>
+            Date/Time: {{invoice_date}}<br/>
+            <hr class='hrItem' />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for invoice in invoices %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        {% for food in foods %}
+                        {% if food.food_id == invoice.product %}
+                        <td>{{food.food_name}}</td>
+                        <td>{{invoice.price}}</td>
+                        <td>{{invoice.quantity}}</td>
+                        <td>{{invoice.quantity|multiply:invoice.price}}</td>
+                        {%endif%}
+                        {%endfor%}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+            
+            <table>
+                <tr>                
+                    <td colspan="3"></td>
+                    <td style="font-weight: bold;">Grand Total</td>
+                    <td>{{grand_total}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
     </body>
 </html>

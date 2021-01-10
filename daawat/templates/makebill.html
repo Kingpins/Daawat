@@ -6,7 +6,7 @@
 {% if request.session.customer_id or request.session.hotel_id%}
 <div class="container">
   <div class="border rounded mt-4 pt-4" id="mobile_responsive">
-    <p class="display-4 pl-4 ml-4">Your Bill</p>
+    <p class="display-4 pl-4 ml-4"> <i class="fa fa-credit-card" aria-hidden="true"></i> Your Bill</p>
     <hr>
     {%include 'messages.html'%}
     <div class="small-container cart-page">
@@ -66,12 +66,16 @@
         <a href="#" data-toggle="modal" data-target="#exampleModal"
           class="btn btn-outline-info border rounded  col-lg-3 float-right">Make My Bill</a>
       </div>
+      {%else%}
+    <div class="m-3 p-3">
+      <span class="">Please refresh this page once all dishes are served.</span>
+    </div>
       {% endif %}
     </div>
   </div>
 
   <div class="border rounded p-4 m-4" id="desktop_responsive">
-    <p class="display-4 pl-4 ml-4">Your Bill</p>
+    <p class="display-4 pl-4 ml-4"> <i class="fa fa-credit-card" aria-hidden="true"></i> Your Bill</p>
     <hr>
     {%include 'messages.html'%}
     <div class="table-responsive">
@@ -130,12 +134,15 @@
       <a href="#" data-toggle="modal" data-target="#exampleModal"
         class="btn btn-outline-info border rounded  col-lg-3 float-right">Make My Bill</a>
     </div>
+    {%else%}
+    <div class="m-3 p-3">
+      <span class="float-right">Please refresh this page once all dishes are served.</span>
+    </div>
     {% endif %}
   </div>
 </div>
 
 
-<!-- modal -->
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -156,11 +163,14 @@
           <b>Make sure you have ordered all your favourite dishes! Thank you for dining with us, Vist Again!!</b><br>
           <hr>
           <p><b>DAAWAT is the one who has created this digitalised menu system experience for you, Enjoy Your
-              DAAWAT.</b></p><br>
+              DAAWAT.</b></p>
           <hr>
           <form action="/create_invoice" method="POST">
             {% csrf_token %}
-            <input hidden type="text" name="grand_total" value="{{orders|total_order_price}}" />
+            <p><b>Rate our service(out of 5)</b></p>
+            <p><input required type="number" max="5" min="0" step=".5" name="ratings" style="width:70px;"/></p>
+            <textarea name="feedback_comment" placeholder="any feedbacks"></textarea><br>
+            <input hidden type="text" name="grand_total" value="{{orders|total_order_price}}" /><br>
             <input type="submit" class="btn float-right btn-outline-info col-lg-6" value="Make Bill">
           </form>
         </div>

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+<div class="container">
+    <div class="border rounded p-4 m-4">
+        <p class="display-4 pl-4 ml-4"> Invoices</p>
+        <hr>
+        {%include 'messages.html'%}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sno.</th>
+                        <th>Invoice No</th>
+                        <th>Time of Inovice</th>
+                        <th>Grand Total</th>
+                        <th>Print Invoice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for invoice in invoices%}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{invoice.invoice_id}}</td>
+                        <td>{{invoice.time_of_invoice|change_to_date}}</td>
+                        <td>{{invoice.grand_total|currency}}</td>
+                        <td>
+                            <form action="/invoices" method="post" stle="text-align: center;">
+                                {%csrf_token%}
+                                <button type="submit" class="btn btn-outline-info border rounded">
+                                    <i class="fa fa-print" aria-hidden="true"></i> Print Invoice
+                                </button>
+                                <input type="hidden" name="customer_id" value="{{invoice.customer_id}}">
+                                <input type="hidden" name="invoice_id" value="{{invoice.invoice_id}}" />
+                                <input type="hidden" name="time_of_invoice"
+                                    value="{{invoice.time_of_invoice|change_to_date}}" />
+                                <input type="hidden" name="grand_total" value="{{invoice.grand_total}}" />
+                            </form>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+
+                <tfoot>
+
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

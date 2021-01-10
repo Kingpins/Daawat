@@ -1,0 +1,68 @@
+{%if feedback.ratings == '0' or feedback.ratings < '0.5'%}
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+{%elif feedback.ratings == '0.5' or feedback.ratings < '1'%}
+<span class="fa fa-star-half-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+{%elif feedback.ratings == '1' or feedback.ratings < '1.5'%}
+<span class="fa fa-star"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+{%elif feedback.ratings == '1.5' or feedback.ratings < '2'%}
+<span class="fa fa-star"></span>
+<span class="fa fa-star-half-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+{%elif feedback.ratings == '2' or feedback.ratings < '2.5'%}
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+{%elif feedback.ratings == '2.5' or feedback.ratings < '3'%}
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star-half-o"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+{%elif feedback.ratings == '3' or feedback.ratings < '3.5'%}
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star-o"></span>
+<span class="fa fa-star-o"></span>
+{%elif feedback.ratings == '3.5' or feedback.ratings < '4'%}
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star-half-o"></span>
+<span class="fa fa-star-o"></span>
+{%elif feedback.ratings == '4' or feedback.ratings < '4.5'%}
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star-o"></span>
+{%elif feedback.ratings == '4.5' or feedback.ratings < '5'%}
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star-half-o"></span>
+{%else%}
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+{%endif%}
+<span>{{feedback.ratings}}</span>

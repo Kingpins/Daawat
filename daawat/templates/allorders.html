@@ -6,6 +6,7 @@
 <div class="container">
     <div class="border rounded p-4 m-4">
         <p class="display-4 pl-4 ml-4"><i class="fa fa-list-alt" aria-hidden="true"></i> All Current Orders</p>
+        <p class="display-10 pl-4 ml-4"><a href="/invoices"> <i class="fa fa-database" aria-hidden="true"></i> Invoices</a></p>
         <hr>
         <div id="accordion">
             {% for customer in customers %}
@@ -14,20 +15,22 @@
                     <h5 class="mb-0">
                         <button style="width:100%" class="btn collapsed" data-toggle="collapse"
                             data-target="#{{forloop.counter}}" aria-expanded="true" aria-controls="collapseOne">
-                            <div class="table-responsive">
-                                <table class="table">
+                            <div class="table-responsive ">
+                                <table class="table text-center col">
                                     <thead>
                                         <tr>
-                                            <th>Customer Name: </th>
+                                            <th>Customer Name</th>
                                             <th>{{customer.customer_name|capfirst}} </th>
-                                            <th>Table No: </th>
+                                            <th>Table No</th>
                                             <th>{{customer.table_no}}</th>
                                             {% if customer.status %}
-                                            <th>Status </th>
+                                            <th>Status</th>
                                             <th><span class="badge badge-success">Currently Dining</span></th>
+                                            <th>Meals to be served</th>
+                                            <th><span class="badge badge-info quantity-text">{{customer.customer_id|no_orders_pending:orders}}</span></th>
                                             {%else%}
                                             <form action="/allorders"
-                                                onsubmit="return confirm('Do you really want to give access?');"
+                                                onsubmit="return confirm('Do you want to give access ?');"
                                                 class="col-6" method="post" style="text-align: center;">
                                                 {%csrf_token%}
                                                 <th>Status</th>
@@ -37,7 +40,7 @@
                                                     value="{{customer.customer_id}}" />
                                             </form>
                                             <form action="/decline"
-                                                onsubmit="return confirm('Do you really want deny access?');"
+                                                onsubmit="return confirm('Do you want to deny access ?');"
                                                 class="col-6" method="post" style="text-align: center;">
                                                 {%csrf_token%}
                                                 <th><input type="submit" class="btn btn-outline-info border rounded"
@@ -60,7 +63,6 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Sno.</th>
                                         <th>Image</th>
                                         <th>Product</th>
                                         <th>Price</th>
@@ -75,7 +77,6 @@
                                     {% for order in orders %}
                                     {%if order.customer_id == customer.customer_id %}
                                     <tr>
-                                        <td>{{forloop.counter}}</td>
                                         {% for product in products %}
                                         {%if order.product == product.food_id%}
                                         <td><img style="height: 80px; width:80px;" src="{{product.food_img}}" alt=""></td>
@@ -113,16 +114,17 @@
                                             <th>Invoice No</th>
                                             <th>{{invoice.invoice_id}}</th>
                                             <th></th>
-                                            <th></th>
+                                            
                                             <th>Grand Total</th>
-                                            <th>{{invoice.grand_total}}</th>
+                                            <th>{{invoice.grand_total|currency}}</th>
                                             <th></th>
                                             <th>
                                                 <form action="/bill_paid"
                                              method="post" stle="text-align: center;">
                                                 {%csrf_token%}
-                                                <input type="submit" onsubmit="return confirm('Have the customer paid the bill?');" class="btn btn-outline-info border rounded"
-                                                        value="Bill Paid" />
+                                                <button type="submit" onsubmit="return confirm('Have the customer paid the bill?');" class="btn btn-outline-info border rounded">
+                                                    <i class="fa fa-print" aria-hidden="true"></i> Bill Paid
+                                                </button>
                                                 <input type="hidden" name="customer_id"
                                                     value="{{invoice.customer_id}}">
                                                     <input type="hidden" name="invoice_id"

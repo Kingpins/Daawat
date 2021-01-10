@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+{%if request.session.user %}
+<div class="container">
+    <div class="border rounded p-4 m-4">
+        <p class="display-8 p-2 m-2"> <i class="fa fa-comments" aria-hidden="true"></i> Reviews and Ratings<br>
+        <span class="display-10 "> Overall rating: {%include 'starratings.html' %} </span></p>
+        <hr>
+        <div id='products' class="p-2 col-lg-9 col-xs-9 mx-auto">
+            <div class="row mx-auto">
+                {%for feedback in feedbacks%}
+                <div class="card m-2 mx-auto product-card" id={{feedback.customer_id}} style="width: 15rem;"
+                    id="product-card">
+                    <div class="card-body">
+                        <div class="card-title display-10">{{feedback.customer_name|capfirst}}</div>
+                        <p class="card-title">
+                            {{feedback.feedback_comment}}</p>
+                        <p class="card-text" style="display: inline-block; font-size:large">
+                            <b>{%include 'starratings.html' %}</b></p><br>
+                    </div>
+                    <div class="card-footer p-1 no-gutters">
+                        <div class="row no-gutters">
+                            {{feedback.time_of_feedback|change_to_date}}
+                        </div>
+                    </div>
+                </div>                
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{%else%}
+
+<div class="container">
+    <div class="border rounded p-2 m-2">
+        <p class="display-4 pl-2 ml-2">You are not permitted to visit this site.</p>
+    </div>
+</div>
+
+{%endif%}
+
+
+
+
+{% endblock %}

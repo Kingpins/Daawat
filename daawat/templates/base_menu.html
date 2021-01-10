@@ -22,13 +22,14 @@
     var txt = "Welcome to {{hotel_details.hotel_name}}";
     var speed=70;
     function myFunction() {
+      document.getElementById("music").play();
       document.getElementById("year").innerHTML = new Date().getFullYear();
       if (i<txt.length){
         document.getElementById("typing_effect").innerHTML += txt.charAt(i);
         i++;
         setTimeout(myFunction,speed);
       }
-
+      
     }
   </script>
   
@@ -72,6 +73,19 @@
 
 
   {% block menu_content %}{% endblock %}
+
+  {% if request.session.customer_id%}
+  <div>
+    {%if request.session.cart.keys|length != 0%}
+    <a href="\cart" class="my-float-quantity">
+      <span class="badge badge-info quantity-text">{{request.session.cart.keys|length}}</span>
+    </a>
+    {% endif %}
+    <a href="\cart" class="float">
+      <i class="fa fa-shopping-cart my-float"></i>
+    </a>
+  </div>
+  {% endif %}
 
   <div class="container-fluid border-top">
     <footer class="container" style="margin-top:10px;padding-top:20px;padding-bottom:20px">

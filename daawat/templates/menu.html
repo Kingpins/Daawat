@@ -5,7 +5,7 @@
 <div class="container-fluid" style=" background-image: url('{% static 'images/bg6.jpg' %}'); background-size:cover;">
     <div class="row">
         <div class="col-lg-8 mx-auto">
-            <p class="display-8 col text-center p-2" style="color: white;">Different Categories</p>
+            <p class="display-8 col text-center p-2" style="color: white;">Different Cuisines</p>
             <div class="row mx-auto">
                 {% for category in categories %}
                 <div class="card mx-auto mb-3 product-card" id={{category.category_id}} style="width: 15rem; box-shadow: 5px 5px 40px 10px grey;"
@@ -29,7 +29,11 @@
             </div>
         </div>
     </div>
+    <div class="p-2 text-center">
+        <audio controls id="music"><source src="{{music}}" type="audio/mpeg"></audio>
+    </div>
 </div>
+</body>
 {%else%}
 Unauhorized Access
 {% endif %}

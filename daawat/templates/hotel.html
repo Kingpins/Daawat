@@ -33,7 +33,22 @@
 {%include 'messages.html'%}
 <div class="container-fluid"
   style="display:block; background-image: url('{% static 'images/bg3.jpg' %}'); background-size:cover; background-attachment:fixed">
-  <div class="container">
+  <div class="container" id="mobile_responsive">
+    <div class="row mx-auto p-3">
+      <div class="col-lg-12 mx-auto" style="font-weight:200px;font-size:20px;color:white;">
+        <img src={{hotel_details.hotel_logo}} width="200px"><br>
+        <div class="display-4">{{hotel_details.hotel_name}}</div>
+        <div> <i class="fa fa-info-circle" aria-hidden="true"></i> About : {{hotel_details.hotel_bio}}</div>
+        <div><i class="fa fa-address-book" aria-hidden="true"></i> {{hotel_details.hotel_address}}</div>
+        <div><i class="fa fa-phone" aria-hidden="true"></i> {{hotel_details.hotel_phone}}</div>
+        <div><i class="fa fa-table" aria-hidden="true"></i> Number of Tables : {{hotel_details.hotel_tables}}</div>
+        {% if feedbackExists %}
+        <div>Overall rating: {%include 'starratings.html' %}</div>
+        {%endif%}
+      </div>
+    </div>
+  </div>
+  <div class="container" id="desktop_responsive">
     <div class="row mx-auto p-4">
       <div class="display-10 col-lg-12 mx-auto" style="color:white;">
         <img src={{hotel_details.hotel_logo}} width="200px"><br>
@@ -42,6 +57,9 @@
         <div><i class="fa fa-address-book" aria-hidden="true"></i> {{hotel_details.hotel_address}}</div>
         <div><i class="fa fa-phone" aria-hidden="true"></i> {{hotel_details.hotel_phone}}</div>
         <div><i class="fa fa-table" aria-hidden="true"></i> Number of Tables : {{hotel_details.hotel_tables}}</div>
+        {% if feedbackExists %}
+        <div>Overall rating: {%include 'starratings.html' %}</div>
+        {%endif%}
       </div>
     </div>
   </div>
@@ -51,14 +69,16 @@
 
 <div class="container-fluid">
   <div class="container">
-    <div class="p-4">
+    <div class="p-3 text-center">
       <a href="#" data-toggle="modal" data-target="#exampleModal1"
-        class="btn btn-outline-info border rounded  col-lg-3 "><i class="fa fa-plus-square" aria-hidden="true"></i> Add Category</a>
+        class="btn btn-outline-info border rounded col-lg-2 "><i class="fa fa-plus-square" aria-hidden="true"></i> Add Category</a>
       {% if category_exists %}
       <a href="#" data-toggle="modal" data-target="#exampleModal2"
-        class="btn btn-outline-info border rounded  col-lg-3 "><i class="fa fa-plus-square" aria-hidden="true"></i> Add Food</a>
+        class="btn btn-outline-info border rounded  col-lg-2 "><i class="fa fa-plus-square" aria-hidden="true"></i> Add Food</a>
         <a href="/generate_qr" 
-        class="btn btn-outline-info border rounded  float-right col-lg-3 ">Generate QR</a>
+        class="btn btn-outline-info border rounded  col-lg-2 "> <i class="fa fa-qrcode" aria-hidden="true"></i> Generate QR</a>
+        <a href="/feedbacks" 
+        class="btn btn-outline-info border rounded  col-lg-2 "> <i class="fa fa-comment" aria-hidden="true"></i> Feedbacks</a>
       {% endif %}
     </div>
   </div>
@@ -75,7 +95,7 @@
         <div class="list-group">
           <form action="/hotel" method="POST" style="padding-bottom:20px">
             {% csrf_token %}
-            <a href="/hotel" class="list-group-item list-group-item-action">All Products</a>
+            <a href="/hotel" class="list-group-item list-group-item-action">All Dishes</a>
             {% for category in categories %}
             <input type="hidden" name="currentCategory" value="{{currentCategory}}" />
             <input type="submit" class="list-group-item list-group-item-action" name="categoryBtn"
@@ -111,7 +131,7 @@
           </div>
           <div class="card-footer p-0 no-gutters">
             <div class="row no-gutters">
-              <form action="/delete_food" onsubmit="return confirm('Do you really want to delete this food item?');"
+              <form action="/delete_food" onsubmit="return confirm('Do you want to delete this food item?');"
                 class="col-6" method="post" style="text-align: center;">
                 {%csrf_token%}
                 <input type="submit" class="btn btn-outline-info border rounded" value="Delete" />

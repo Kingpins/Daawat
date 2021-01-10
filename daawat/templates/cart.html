@@ -4,7 +4,7 @@
 {% load cart %}
 {% load custom_filter %}
 {%if request.session.customer_id %}
-<div class="container"
+<div class="container">
   <div class="border rounded mt-4 pt-4" id="mobile_responsive">
     <p class="display-4 pl-4 ml-4"><i class="fa fa-cart-plus"></i> Your Cart</p>
     <hr>
@@ -144,6 +144,9 @@
     <div class="m-3 p-3">
       <a href="#" data-toggle="modal" data-target="#exampleModal"
         class="btn btn-outline-info border rounded  col-lg-3 float-right">Place order</a>
+    </div>
+    <div hidden class="p-2 text-center">
+      <audio controls id="music"><source src="{{music}}" type="audio/mpeg"></audio>
     </div>
   </div>
 </div>
