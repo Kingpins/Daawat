@@ -8,7 +8,7 @@ import os
 
 class SessionManager(object):
     BASE_DIR = Path(__file__).resolve().parent.parent
-    path_for_bundle = os.path.join(BASE_DIR,'dao\creds.zip')
+    path_for_bundle = os.path.join(BASE_DIR,'dao/creds.zip')
 
     __instance = None
     username = "shabaz"
