@@ -7,11 +7,14 @@ from .views.hotel import Hotel, generate_qr, print_qr
 from .views.food import Food, update_food, delete_food
 from .views.category import Category
 from .views.menu import Menu, add_customer, loading, main_menu, main_items
+from .views.feedback import Feedback
 from .views.cart import Cart
 from .views.placeorder import PlaceOrder, create_invoice
 from .views.makebill import MakeBill
 from .views.allorders import AllOrders, decline, order_status, bill_paid
+from .views.invoice import GeneratePDF
 from .middlewares.auth import  auth_middleware
+
 
 
 urlpatterns = [
@@ -21,6 +24,7 @@ urlpatterns = [
     # The Hotel page where in user creates menu by adding food and categories,
     # the qr-generation for respective table no,
     # monitoring all the orders and checking the status of customers,
+    # retriving all the feedbacks of customers,
     # all these functionalities are handled by the following Views.py files.
     path('hotel', auth_middleware(Hotel.as_view()) , name='hotel'),
     path('food', auth_middleware(Food.as_view()) , name='food'),
@@ -33,6 +37,8 @@ urlpatterns = [
     path('order_status', auth_middleware(order_status) , name='order_status'),
     path('decline', auth_middleware(decline) , name='decline'),
     path('bill_paid', auth_middleware(bill_paid) , name='bill_paid'),
+    path('feedbacks', auth_middleware(Feedback.as_view()) , name='feedbacks'),
+    path('invoices', auth_middleware(GeneratePDF.as_view()) , name='invoices'),
 
     # The Menu displaying to customers, adding items to cart and finally printing out bill
     # functionalities are handled by the following Views.py files.

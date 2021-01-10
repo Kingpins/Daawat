@@ -1,3 +1,3 @@
 from django.shortcuts import render
 
-# Create your views here.
+# All the views could be found in views folder.
