@@ -1,1 +1,1 @@
-web: gunicorn daawat.wsgi --log-file -
+web: gunicorn hotel_menu.wsgi --log-file -
