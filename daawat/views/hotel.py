@@ -62,7 +62,6 @@ class Hotel(View):
                 categoryName.append(out["category_name"])
             HotelIntro(hotel_name,hotel_bio)
             HotelCategories(categoryName,hotel_name)
-            PlaceOrder()
             data["categories"] = categories
             result = astra_service.get_food_by_email(userEmail)
             data["products"] = result
@@ -116,6 +115,7 @@ class Hotel(View):
         hotel_tables = postData.get('hotel_tables')
         if hotel_name:
             HotelIntro(hotel_name,hotel_bio)
+            PlaceOrder()
             hotel_logo_temp = request.FILES['hotel_logo']
             storage_link = storage.child("hotelLogo/"+hotel_name+".jpg").put(hotel_logo_temp)
             if storage_link:
