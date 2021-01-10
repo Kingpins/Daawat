@@ -6,3 +6,4 @@ from .generate_qr import Generate_QR
 from .customer import Customers
 from .order import Orders
 from .inovice import Invoices
+from .feedbacks import Feedbacks
