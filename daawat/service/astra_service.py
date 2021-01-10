@@ -7,6 +7,7 @@ from daawat.dao.customer_dao import CustomersDAO
 from daawat.dao.generate_qr_dao import GenerateQRsDAO
 from daawat.dao.orders_dao import OrdersDAO
 from daawat.dao.invoices_dao import InvoicesDAO
+from daawat.dao.feedbacks_dao import FeedbacksDAO
 
 class AstraService(object):
 
@@ -18,6 +19,7 @@ class AstraService(object):
     generate_qr_dao = None
     order_dao = None
     invoice_dao = None
+    feedback_dao = None
     _session_manager = SessionManager()
     _session = None
 
@@ -82,6 +84,12 @@ class AstraService(object):
             self.invoice_dao = InvoicesDAO(self.get_session())
 
         return self.invoice_dao
+
+    def get_feedback_dao(self):
+        if self.feedback_dao is None:
+            self.feedback_dao = FeedbacksDAO(self.get_session())
+
+        return self.feedback_dao
 
     # functions used to service login and signup functionalities
     def create_new_user(self, first_name, last_name, phone, email, password):
@@ -187,8 +195,23 @@ class AstraService(object):
     def get_invoice_by_invoice_id(self, invoice_id):
         return self.get_invoice_dao().get_invoice_by_invoice_id(invoice_id)
 
+    def get_invoice_by_invoice_id_with_limit_1(self, invoice_id):
+        return self.get_invoice_dao().get_invoice_by_invoice_id_with_limit(invoice_id)
+
+    def get_invoice_by_hotel_id(self, hotel_id):
+        return self.get_invoice_dao().get_invoice_by_hotel_id(hotel_id)
+
     def get_invoice_by_customer_id(self, customer_id):
         return self.get_invoice_dao().get_invoice_by_customer_id(customer_id)
+
+    def create_feedback(self, feedback):
+        return self.get_feedback_dao().create_feedback(feedback)
+
+    def get_feedbacks_by_hotel_id(self, hotel_id):
+        return self.get_feedback_dao().get_feedback_by_hotel_id(hotel_id)
+
+    def get_feedbacks_exists(self, hotel_id):
+        return self.get_feedback_dao().get_feedback_exits(hotel_id)
 
 
 astra_service = AstraService()
