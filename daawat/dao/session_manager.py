@@ -61,7 +61,7 @@ class SessionManager(object):
             # This is how you use the Astra secure connect bundle to connect to an Astra database
             # note that the database username and password required.
             # note that no contact points or any other driver customization is required.
-            try:
+            
                 astra_config = {
                     'secure_connect_bundle': self.secure_connect_bundle_path
                 }
@@ -77,7 +77,7 @@ class SessionManager(object):
 
                 # have the driver return LocationUDT as a dict
                 cluster.register_user_type(self.keyspace, 'location_udt', dict)
-            except:
+            
                 HttpResponse("Unable to connect cloud, Please try reloading.")
 
         return self._session
