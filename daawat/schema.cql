@@ -83,3 +83,13 @@ CREATE TABLE IF NOT EXISTS invoices (
     grand_total text,
     PRIMARY KEY ((hotel_id, customer_id,order_id),time_of_invoice)
 ) WITH CLUSTERING ORDER BY (time_of_invoice DESC);
+
+CREATE TABLE IF NOT EXISTS feedbacks (
+    hotel_id text,
+    customer_id text,
+    customer_name text,
+    ratings text,
+    feedback_comment text,
+    time_of_feedback float,
+    PRIMARY KEY (hotel_id,time_of_feedback)
+) WITH CLUSTERING ORDER BY (time_of_feedback DESC);
