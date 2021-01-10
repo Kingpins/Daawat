@@ -5,6 +5,7 @@ from cassandra.util import min_uuid_from_time
 from datetime import datetime, timedelta
 from daawat.model.foods import Foods
 from daawat.service.astra_service import *
+from daawat.service.firebase_service import *
 from .menu import hotel_exists
 
 class Cart(View):
@@ -47,6 +48,8 @@ class Cart(View):
         hotel_id = request.session["hotel_id"]
         hotel_exists(data,hotel_id)
         ids = list(request.session.get('cart').keys())
+        if len(ids) == 0:
+            data["music"] = storage_link = storage.child("hotelAudioClips/PlaceOrder.mp3").get_url(None) 
         products = astra_service.get_food_by_food_ids(ids)
         data["products"] = products
         return render(request , 'cart.html' , data )
