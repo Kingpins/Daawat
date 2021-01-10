@@ -33,7 +33,6 @@ python-bidi==0.4.2
 python-jwt==2.0.1
 pyttsx3==2.90
 pytz==2020.5
-pywin32==300
 qrcode==6.1
 reportlab==3.5.58
 requests==2.25.1
