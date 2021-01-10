@@ -60,9 +60,9 @@ class Hotel(View):
             for out in result_category:
                 categories.append(out)
                 categoryName.append(out["category_name"])
-            threading.Thread(target=HotelIntro,args=(hotel_name,hotel_bio), daemon=True).start() 
-            threading.Thread(target=HotelCategories,args=(categoryName,hotel_name), daemon=True).start() 
-            threading.Thread(target=PlaceOrder,args=(), daemon=True).start() 
+            HotelIntro(hotel_name,hotel_bio)
+            HotelCategories(categoryName,hotel_name)
+            PlaceOrder()
             data["categories"] = categories
             result = astra_service.get_food_by_email(userEmail)
             data["products"] = result
@@ -115,7 +115,7 @@ class Hotel(View):
         hotel_phone = postData.get('hotel_phone')
         hotel_tables = postData.get('hotel_tables')
         if hotel_name:
-            threading.Thread(target=HotelIntro,args=(hotel_name,hotel_bio), daemon=True).start() 
+            HotelIntro(hotel_name,hotel_bio)
             hotel_logo_temp = request.FILES['hotel_logo']
             storage_link = storage.child("hotelLogo/"+hotel_name+".jpg").put(hotel_logo_temp)
             if storage_link:
