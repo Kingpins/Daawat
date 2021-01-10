@@ -5,6 +5,7 @@ from daawat.service.astra_service import *
 from cassandra.util import min_uuid_from_time
 from daawat.model.order import Orders
 from daawat.model.inovice import Invoices
+from daawat.model.feedbacks import Feedbacks
 from datetime import datetime, timedelta
 from .menu import hotel_exists
 import random
@@ -17,7 +18,6 @@ class PlaceOrder(View):
         cart = request.session.get('cart')
         products = astra_service.get_food_by_food_ids(list(cart.keys()))
         error_message = None
-        
         if not error_message:
             for product in products:
                 order_id = random.randint(1,10000000)
@@ -33,6 +33,7 @@ class PlaceOrder(View):
                 
             request.session['cart'] = {}
             messages.success(request,"Order placed successfully!")
+            
             return redirect('cart')
         else:
             messages.warning(request,error_message)
@@ -42,9 +43,13 @@ def create_invoice(request):
     if request.method =="GET":
         pass
     if request.method =="POST":
+        ratings = request.POST.get('ratings')
+        feedback_comment = request.POST.get('feedback_comment')
+       
         hotel_id = request.session.get('hotel_id')
         customer_id = request.session.get('customer_id')
         grand_total = request.POST.get('grand_total')
+        customer_name = request.session["customer_name"]
         ordersList = []
         data = {}
         customer_ids = []
@@ -60,6 +65,9 @@ def create_invoice(request):
         products = astra_service.get_food_by_food_ids(foodIds)
         invoice_id = random.randint(1,10000000)
         time_of_invoice = datetime.now()
+
+        feedback = Feedbacks(customer_id,hotel_id,customer_name,time_of_invoice,ratings,feedback_comment)
+        astra_service.create_feedback(feedback)
         for result in ordersList:
             invoice = Invoices(customer_id = result["customer_id"],
                           hotel_id = result["hotel_id"],

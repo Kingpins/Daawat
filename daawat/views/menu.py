@@ -7,12 +7,12 @@ from daawat.model.hotels import Hotels
 from daawat.model.customer import Customers
 from daawat.service.astra_service import *
 from django.http import HttpResponse
-
+from daawat.service.speak_service import *
+from daawat.service.firebase_service import *
 
 class Menu(View):
     def get(self , request, hotel_id, table_no):
         data = {}
-        
         request.session["hotel_id"] = hotel_id
         request.session["table_no"] = table_no
         tableList = []
@@ -28,14 +28,18 @@ class Menu(View):
             result = astra_service.get_hotel_by_hotel_id(hotel_id)
             for out in result:
                 data["hotel_details"] = out
+                HotelName = out["hotel_name"]
                 data["hotel_exists"] = True
                 tables = int(out["hotel_tables"])
             for i in range(1,tables+1):
                 tableList.append(i)
             if int(table_no) not in tableList:
                 data["hotel_exists"] = False
+            audio_link = storage.child("hotelAudioClips/"+HotelName+".mp3").get_url(None)
+            data["music"] = audio_link
         else:
             data["hotel_exists"] = False
+    
         return render(request , 'customer_info.html',data)
 
     def post(self , request):
@@ -49,18 +53,21 @@ def hotel_exists(data,hotel_id):
         for out in result:
             data["hotel_details"] = out
             data["hotel_exists"] = True
-    return data
+            HotelName = out["hotel_name"]
+    return data,HotelName
 
 
 def add_customer(request):
     if request.method =="GET":
         data = {}
+        if "customer_id" not in request.session :
+            return HttpResponse("This is either trespassing or you could have completed the dining, Thank You, Visit Again")
         cart = request.session.get('cart')
         if not cart:
             request.session['cart'] = {}
         hotel_id = request.session["hotel_id"] 
         table_no = request.session["table_no"] 
-        hotel_exists(data,hotel_id)
+        data,HotelName = hotel_exists(data,hotel_id)
         customer_id = request.session["customer_id"] 
         if customer_id != None:
             customer_status = astra_service.customer_status_by_customer_id(customer_id)
@@ -68,7 +75,9 @@ def add_customer(request):
                 if out["status"] == True:
                     result_category = astra_service.get_category_by_hotel_id(hotel_id)
                     data["categories"] = result_category
-
+                    ids = list(request.session.get('cart').keys())
+                    if len(ids) == 0:
+                        data["music"] = storage_link = storage.child("hotelAudioClips/"+HotelName+"Categories.mp3").get_url(None) 
                     return render(request , 'menu.html',data)
                 else:
                     return render(request , 'loading.html',data)
@@ -82,6 +91,7 @@ def add_customer(request):
         now = datetime.utcnow()
         customer_id = min_uuid_from_time(now)
         customer_name = postData.get('customer_name')
+        request.session["customer_name"] = customer_name
         hotel_id = request.session["hotel_id"]
         table_no = request.session["table_no"]
         status = False
@@ -93,6 +103,8 @@ def add_customer(request):
 def main_menu(request):
     if request.method =="GET":
         data = {}
+        if "customer_id" not in request.session :
+            return HttpResponse("This is either trespassing or you could have completed the dining, Thank You, Visit Again")
         hotel_id = request.session["hotel_id"] 
         hotel_exists(data,hotel_id)
         category_name = request.session["category_name"] 
@@ -115,6 +127,8 @@ def main_items(request):
         foodList = []
         hotel_id = request.session["hotel_id"] 
         hotel_exists(data,hotel_id)
+        if "category_name" not in request.session :
+            return HttpResponse("This is either trespassing or you could have completed the dining, Thank You, Visit Again")
         category_name = request.session["category_name"] 
         result = astra_service.get_food_by_category_name(category_name)
         for out in result:

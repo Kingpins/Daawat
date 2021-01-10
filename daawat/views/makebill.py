@@ -16,7 +16,7 @@ class MakeBill(View):
         data = {}
         customer_ids = []
         if "hotel_id" not in request.session :
-            return HttpResponse("Thank You, Visit Again")
+            return HttpResponse("This is either trespassing or you could have completed the dining, Thank You, Visit Again")
         hotel_id = request.session["hotel_id"] 
         hotel_exists(data,hotel_id)
         customer_id = request.session["customer_id"] 
@@ -40,4 +40,3 @@ class MakeBill(View):
         data["orders"] = ordersList
         data["products"] = products
         return render(request , 'makebill.html' , data )
-

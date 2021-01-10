@@ -10,13 +10,20 @@ from daawat.service.astra_service import *
 from daawat.service.firebase_service import storage
 from daawat.service.qrcode_service import *
 from daawat.util.generate_pdf import *
+from daawat.service.speak_service import *
 from pathlib import Path
 import os
+import threading
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 class Hotel(View):
     def get(self , request):
         data = {}
+        feedbackList = []
+        sum = 0 
+        hotel_name = None
+        hotel_bio = None
         userEmail = request.session['user']
         request.session['table_no'] = '1'
         if astra_service.check_connection() == False:
@@ -27,18 +34,41 @@ class Hotel(View):
             result = astra_service.get_hotel_by_email(userEmail)
             for out in result:
                 data["hotel_details"] = out
+                hotel_name = out["hotel_name"]
+                hotel_bio = out["hotel_bio"]
                 request.session["hotel_id"] = out["hotel_id"]
                 hotel_id = request.session["hotel_id"]
-
+            feedbackExists = astra_service.get_feedbacks_exists(hotel_id)
+            if feedbackExists:
+                data["feedbackExists"] = True
+                feedbacks = astra_service.get_feedbacks_by_hotel_id(hotel_id)
+                for out in feedbacks:
+                    feedbackList.append(out)
+                for a in feedbackList:
+                    sum += float(a["ratings"])
+                starRatings = sum/len(feedbackList)
+                data["feedback"] = {"ratings":str(starRatings)}
+                data["feedbacks"] = feedbackList
+            else:
+                data["feedbackExists"] = False
+        
         categoryExists = astra_service.get_category_exits(userEmail)
         if categoryExists:
+            categoryName = []
+            categories = []
             result_category = astra_service.get_category_by_hotel_id(hotel_id)
-            data["categories"] = list(result_category)
-        
+            for out in result_category:
+                categories.append(out)
+                categoryName.append(out["category_name"])
+            threading.Thread(target=HotelIntro,args=(hotel_name,hotel_bio), daemon=True).start() 
+            threading.Thread(target=HotelCategories,args=(categoryName,hotel_name), daemon=True).start() 
+            threading.Thread(target=PlaceOrder,args=(), daemon=True).start() 
+            data["categories"] = categories
             result = astra_service.get_food_by_email(userEmail)
             data["products"] = result
         data['category_exists'] = categoryExists
         return render(request , 'hotel.html', data)
+        
 
     def post(self , request):
         userEmail = str(request.session['user'])
@@ -85,6 +115,7 @@ class Hotel(View):
         hotel_phone = postData.get('hotel_phone')
         hotel_tables = postData.get('hotel_tables')
         if hotel_name:
+            threading.Thread(target=HotelIntro,args=(hotel_name,hotel_bio), daemon=True).start() 
             hotel_logo_temp = request.FILES['hotel_logo']
             storage_link = storage.child("hotelLogo/"+hotel_name+".jpg").put(hotel_logo_temp)
             if storage_link:
@@ -182,12 +213,12 @@ def generate_qr(request):
                     request.session['table_no'] = table_no
                     return redirect("generate_qr")
  
-        qr_string = "https://daawat-menu.herokuapp.com/"+hotel_id+"/"+table_no
+        qr_string = "http://127.0.0.1:8000/"+hotel_id+"/"+table_no
         image_name = hotel_name+table_no
         GenerateQR(qr_string,image_name)
         path_of_storage = os.path.join(BASE_DIR,'qr_images')
 
-        storage_link = storage.child("hotelQR/"+hotel_name+table_no+".jpg").put(path_of_storage+"/"+image_name+".png")
+        storage_link = storage.child("hotelQR/"+hotel_name+table_no+".jpg").put(path_of_storage+"\\"+image_name+".png")
         if storage_link:
             qr_image = storage.child("hotelQR/"+hotel_name+table_no+".jpg").get_url(None)
         else:
