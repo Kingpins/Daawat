@@ -3,11 +3,12 @@ from cassandra.auth import PlainTextAuthProvider
 from cassandra.query import dict_factory
 from cassandra import Unauthorized, Unavailable, AuthenticationFailed, OperationTimedOut, ReadTimeout
 from pathlib import Path
+from django.http import HttpResponse
 import os
 
 class SessionManager(object):
     BASE_DIR = Path(__file__).resolve().parent.parent
-    path_for_bundle = os.path.join(BASE_DIR,'dao/creds.zip')
+    path_for_bundle = os.path.join(BASE_DIR,'dao\creds.zip')
 
     __instance = None
     username = "shabaz"
@@ -60,21 +61,24 @@ class SessionManager(object):
             # This is how you use the Astra secure connect bundle to connect to an Astra database
             # note that the database username and password required.
             # note that no contact points or any other driver customization is required.
-            astra_config = {
-                'secure_connect_bundle': self.secure_connect_bundle_path
-            }
+            try:
+                astra_config = {
+                    'secure_connect_bundle': self.secure_connect_bundle_path
+                }
 
-            cluster = Cluster(cloud=astra_config, auth_provider=PlainTextAuthProvider(self.username,self.password))
-            
-            self._session = cluster.connect(keyspace=self.keyspace)
-            output = self._session.execute("SELECT * FROM system.local")
-            for row in output:
-                print("Your are now connected to cluster '{}'".format(row.cluster_name))
-            # have the driver return results as dict
-            self._session.row_factory = dict_factory
+                cluster = Cluster(cloud=astra_config, auth_provider=PlainTextAuthProvider(self.username,self.password))
+                
+                self._session = cluster.connect(keyspace=self.keyspace)
+                output = self._session.execute("SELECT * FROM system.local")
+                for row in output:
+                    print("Your are now connected to cluster '{}'".format(row.cluster_name))
+                # have the driver return results as dict
+                self._session.row_factory = dict_factory
 
-            # have the driver return LocationUDT as a dict
-            cluster.register_user_type(self.keyspace, 'location_udt', dict)
+                # have the driver return LocationUDT as a dict
+                cluster.register_user_type(self.keyspace, 'location_udt', dict)
+            except:
+                HttpResponse("Unable to connect cloud, Please try reloading.")
 
         return self._session
 

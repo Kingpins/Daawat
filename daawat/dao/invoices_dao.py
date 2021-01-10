@@ -13,7 +13,11 @@ class InvoicesDAO(object):
 
     select_all_invoices_for_invoice_id = 'SELECT * FROM {table_name} WHERE invoice_id = :invoice_id ALLOW FILTERING;'.format(table_name=table_name)
 
+    select_all_invoices_for_invoice_id_with_limit = 'SELECT * FROM {table_name} WHERE invoice_id = :invoice_id LIMIT 1 ALLOW FILTERING;'.format(table_name=table_name)
+
     select_all_invoices_for_customer_id = 'SELECT * FROM {table_name} WHERE customer_id = :customer_id LIMIT 1 ALLOW FILTERING;'.format(table_name=table_name)
+
+    select_all_invoices_for_hotel_id = 'SELECT * FROM {table_name} WHERE hotel_id = :hotel_id ALLOW FILTERING;'.format(table_name=table_name)
 
     update_status = 'UPDATE {table_name} SET status = :status WHERE hotel_id = :hotel_id AND customer_id = :customer_id AND order_id = :order_id AND time_of_order = :time_of_order' \
                                               ''.format(table_name=table_name)                                                                                                                               
@@ -24,6 +28,8 @@ class InvoicesDAO(object):
         self.insert_prep_stmt = _session.prepare(self.insert_stmt)
         self.select_all_invoices_for_invoice_id_prep_stmt = _session.prepare(self.select_all_invoices_for_invoice_id)
         self.select_all_invoices_for_customer_id_prep_stmt = _session.prepare(self.select_all_invoices_for_customer_id)
+        self.select_all_invoices_for_hotel_id_prep_stmt = _session.prepare(self.select_all_invoices_for_hotel_id)
+        self.select_all_invoices_for_invoice_id_with_limit_prep_stmt = _session.prepare(self.select_all_invoices_for_invoice_id_with_limit)
     
     def maybe_create_schema(self):
         self._session.execute(self.create_stmt)
@@ -52,6 +58,18 @@ class InvoicesDAO(object):
     def get_invoice_by_invoice_id(self,invoice_id):
         result = self._session.execute(self.select_all_invoices_for_invoice_id_prep_stmt.bind({
             'invoice_id': invoice_id}
+        ))
+        return result
+
+    def get_invoice_by_invoice_id_with_limit(self,invoice_id):
+        result = self._session.execute(self.select_all_invoices_for_invoice_id_with_limit_prep_stmt.bind({
+            'invoice_id': invoice_id}
+        ))
+        return result
+
+    def get_invoice_by_hotel_id(self,hotel_id):
+        result = self._session.execute(self.select_all_invoices_for_hotel_id_prep_stmt.bind({
+            'hotel_id': hotel_id}
         ))
         return result
     

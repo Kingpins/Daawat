@@ -6,3 +6,4 @@ from .categorys_dao import CategorysDAO
 from .generate_qr_dao import GenerateQRsDAO
 from .customer_dao import CustomersDAO
 from .invoices_dao import InvoicesDAO
+from .feedbacks_dao import FeedbacksDAO
