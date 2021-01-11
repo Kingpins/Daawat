@@ -11,7 +11,7 @@ class Invoices(object):
         self.product_id = product
         self.price = str(price)
         self.quantity = quantity
-        self.time_of_invoice =datetime.timestamp( time_of_invoice)
+        self.time_of_invoice =datetime.timestamp(time_of_invoice)
         self.grand_total = str(grand_total)
     
     
