@@ -19,6 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 class Hotel(View):
     def get(self , request):
+        # Variable declarations
         data = {}
         feedbackList = []
         sum = 0 
@@ -26,9 +27,12 @@ class Hotel(View):
         hotel_bio = None
         userEmail = request.session['user']
         request.session['table_no'] = '1'
+        
+        # Checking astra datastax connection
         if astra_service.check_connection() == False:
             astra_service.connect()
         
+        # Checking if a hotel exists for respective user
         hotelExists = astra_service.get_hotel_exits(userEmail)
         if hotelExists:
             result = astra_service.get_hotel_by_email(userEmail)
@@ -38,6 +42,8 @@ class Hotel(View):
                 hotel_bio = out["hotel_bio"]
                 request.session["hotel_id"] = out["hotel_id"]
                 hotel_id = request.session["hotel_id"]
+                
+            # Getting feedbacks for the particular hotel from db.
             feedbackExists = astra_service.get_feedbacks_exists(hotel_id)
             if feedbackExists:
                 data["feedbackExists"] = True
@@ -51,7 +57,8 @@ class Hotel(View):
                 data["feedbacks"] = feedbackList
             else:
                 data["feedbackExists"] = False
-        
+                
+        # Retrieving categories based on the hotel_id
         categoryExists = astra_service.get_category_exits(userEmail)
         if categoryExists:
             categoryName = []
@@ -63,6 +70,8 @@ class Hotel(View):
             HotelIntro(hotel_name,hotel_bio)
             HotelCategories(categoryName,hotel_name)
             data["categories"] = categories
+            
+            # Retrieving foods from database
             result = astra_service.get_food_by_email(userEmail)
             data["products"] = result
         data['category_exists'] = categoryExists
@@ -70,6 +79,7 @@ class Hotel(View):
         
 
     def post(self , request):
+        # Variable declarations and POST request parameters.
         userEmail = str(request.session['user'])
         data = {}
         error_message = None
@@ -77,7 +87,9 @@ class Hotel(View):
         categoryNameforDisplay = None
         categoryName = request.POST.get('categoryBtn')
         currentCategory = request.POST.get('currentCategory')
-
+        
+   
+        # The following logic is used to giveaway food to template based on the categories selected.
         hotelExists = astra_service.get_hotel_exits(userEmail)
         if hotelExists:
             result = astra_service.get_hotel_by_email(userEmail)
@@ -104,7 +116,7 @@ class Hotel(View):
         data['categoryNameforDisplay'] = categoryNameforDisplay
         data["products"] = products
 
-        
+        # If the user is entering hotel details for the first time.
         now = datetime.utcnow()
         hotel_id = min_uuid_from_time(now)
         postData = request.POST
@@ -114,8 +126,10 @@ class Hotel(View):
         hotel_phone = postData.get('hotel_phone')
         hotel_tables = postData.get('hotel_tables')
         if hotel_name:
+            # Creating a voice assistant
             HotelIntro(hotel_name,hotel_bio)
             PlaceOrder()
+            # Storing hotel logo in firebase
             hotel_logo_temp = request.FILES['hotel_logo']
             storage_link = storage.child("hotelLogo/"+hotel_name+".jpg").put(hotel_logo_temp)
             if storage_link:
@@ -126,6 +140,7 @@ class Hotel(View):
             hotel = Hotels(hotel_id, hotel_name,hotel_bio,hotel_address,hotel_phone,hotel_tables,hotel_logo,userEmail)
 
             if not error_message:
+                # Creating a hotel in database
                 astra_service.create_new_hotel(hotel)
                 messages.success(request,'Successfully created the hotel, Start creating your menu!')
                 request.session['hotelid'] = str(hotel_id)
@@ -141,7 +156,7 @@ def print_qr(request):
     if request.method == "GET":
         pass
 
-    # This method is used to print the QR image, by creating a pdf of it.
+    # This method is used to print the QR image, by creating a pdf of it with the help of qr_pdf.html.
     if request.method == "POST" :
         postData = request.POST
         image_url = postData.get('image_url')
@@ -149,7 +164,8 @@ def print_qr(request):
         template = get_template('qr_pdf.html')
         context = {
             "image_url":image_url,
-            "table_no":table_no
+            "table_no":table_no,
+            "hotel_name":request.session["hotel_name"],
         }
         html = template.render(context)
         pdf = render_to_pdf('qr_pdf.html', context)
@@ -182,8 +198,10 @@ def generate_qr(request):
             result = astra_service.get_hotel_by_email(userEmail)
             for out in result:
                 data["hotel_details"] = out
+                request.session["hotel_name"] = out["hotel_name"]
                 tables = int(out["hotel_tables"])
-
+                
+        # Checking if qr image is already generated and stored in database
         qr_exists_in_db = astra_service.get_generate_qr_exits(userEmail)
         if qr_exists_in_db:
             for out in qr_exists_in_db:
@@ -205,6 +223,8 @@ def generate_qr(request):
         hotel_name = postData.get('hotel_name')
         hotel_id = postData.get('hotel_id')
         table_no = postData.get('table_no')
+        
+        # Checking if qr image is already generated and stored in database, if found return the result.
         qr_exists_in_db = astra_service.get_generate_qr_exits(userEmail)
         if qr_exists_in_db:
             for out in qr_exists_in_db:
@@ -212,7 +232,8 @@ def generate_qr(request):
                     data["qr_details"] = out
                     request.session['table_no'] = table_no
                     return redirect("generate_qr")
-                
+        
+        # If not found in database, create a new one.
         request.session['table_no'] = table_no
         qr_string = "https://daawat-menu.herokuapp.com/"+hotel_id+"/"+table_no
         image_name = hotel_name+table_no
