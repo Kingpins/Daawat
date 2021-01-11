@@ -10,9 +10,11 @@ from datetime import datetime, timedelta
 from .menu import hotel_exists
 import random
 from daawat.util.generate_pdf import *
+from pytz import timezone
 
 class PlaceOrder(View):
     def post(self, request):
+        IST = timezone('Asia/Kolkata')
         hotel_id = request.session.get('hotel_id')
         customer = request.session.get('customer_id')
         cart = request.session.get('cart')
@@ -24,7 +26,7 @@ class PlaceOrder(View):
                 order = Orders(customer_id = customer,
                           hotel_id = hotel_id,
                           order_id = order_id,
-                          time_of_order = datetime.now(),
+                          time_of_order = datetime.now(IST),
                           price=product["food_price"],
                           quantity=cart.get(product["food_id"]),
                           product=product["food_id"]
@@ -43,6 +45,7 @@ def create_invoice(request):
     if request.method =="GET":
         pass
     if request.method =="POST":
+        IST = timezone('Asia/Kolkata')
         ratings = request.POST.get('ratings')
         feedback_comment = request.POST.get('feedback_comment')
        
@@ -64,7 +67,7 @@ def create_invoice(request):
         foodIds = set(foodIds)
         products = astra_service.get_food_by_food_ids(foodIds)
         invoice_id = random.randint(1,10000000)
-        time_of_invoice = datetime.now()
+        time_of_invoice = datetime.now(IST)
 
         feedback = Feedbacks(customer_id,hotel_id,customer_name,time_of_invoice,ratings,feedback_comment)
         astra_service.create_feedback(feedback)

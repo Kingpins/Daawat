@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render , redirect , HttpResponseRedirect
 from django.views.generic import View
+from django.core.paginator import Paginator
 from daawat.util.generate_pdf import render_to_pdf 
 from django.template.loader import get_template
 from daawat.service.astra_service import *
@@ -53,6 +54,7 @@ class GeneratePDF(View):
 
 
     def get(self, request, *args, **kwargs):
+
         data = {}
         invoiceList = []
         invoice_numbers = []
@@ -60,6 +62,7 @@ class GeneratePDF(View):
         if astra_service.check_connection() == False:
             astra_service.connect()
 
+        page = request.GET.get("page")
         hotel_id = request.session.get('hotelid')
         invoices = astra_service.get_invoice_by_hotel_id(hotel_id)
 
@@ -73,6 +76,12 @@ class GeneratePDF(View):
             for out in result:
                 invoiceList.append(out)
         invocieList = invoiceList.sort(key=lambda x:x["time_of_invoice"],reverse=True)
-        data["invoices"] = invoiceList
+
+
+        p = Paginator(invoiceList,10)
+        page_obj = p.get_page(page)
+        
+      
+        data["invoices"] = page_obj
         data["invoice_numbers"] = invoice_numbers
         return render(request , 'invoice_details.html'  , data)

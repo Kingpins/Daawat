@@ -18,7 +18,7 @@ class Feedback(View):
             feedbackList.append(out)
         for a in feedbackList:
             sum += float(a["ratings"])
-        starRatings = sum/len(feedbackList)
+        starRatings = round(sum/len(feedbackList),1)
         data["feedback"] = {"ratings":str(starRatings)}
         data["feedbacks"] = feedbackList
         return render(request , 'feedback.html' , data )
