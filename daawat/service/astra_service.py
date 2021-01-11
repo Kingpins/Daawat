@@ -11,6 +11,7 @@ from daawat.dao.feedbacks_dao import FeedbacksDAO
 
 class AstraService(object):
 
+    # Necessary variable declarations
     user_dao = None
     hotel_dao = None
     food_dao = None
@@ -25,18 +26,23 @@ class AstraService(object):
 
     def __init__(self):
         pass
+
     def get_session(self):
         if self._session is None:
             self._session = self._session_manager.get_instance().connect()
 
         return self._session
 
+    # connecting to ASTRA DATASTAX DB
     def connect(self):
         return self._session_manager.connect()
 
+    # checking DB connection
     def check_connection(self):
         return self._session_manager.check_connection()
 
+    # The following functions are used to provide _session for all the Data Access Objects,
+    # As listed UserDAO, HotelDAO, FoodDAO, CategoryDAO, CustomerDAO, OrderDAO, InvoiceDAO, FeedbackKDAO
     def get_user_dao(self):
         if self.user_dao is None:
             self.user_dao = UsersDAO(self.get_session())
@@ -101,7 +107,7 @@ class AstraService(object):
     def get_user_by_email(self,email):
         return self.get_user_dao().get_user_by_email(email)
 
-    # functions used to add hotel and check whether hotel exists 
+    # functions used to add hotel and check whether hotel exists by email_id or hotel_id
     def create_new_hotel(self, hotel):
         return self.get_hotel_dao().create_hotel(hotel)
 
@@ -117,6 +123,7 @@ class AstraService(object):
     def get_hotel_exits_by_hotel_id(self,hotel_id):
         return self.get_hotel_dao().get_hotel_exits_by_hotel_id(hotel_id)
 
+    # functions used to add category and check whether category exists by email_id or hotel_id or category_name
     def create_new_category(self, category):
         return self.get_category_dao().create_category(category)
     
@@ -131,7 +138,8 @@ class AstraService(object):
 
     def get_category_id_by_category_name(self,category_name):
         return self.get_category_dao().get_category_id_by_category_name(category_name)
-    
+
+    # functions used to add, delete and update food and retrive food by email_id or food_id
     def create_new_food(self, food):
         return self.get_food_dao().create_food(food)
 
@@ -156,6 +164,7 @@ class AstraService(object):
     def get_food_by_category_name(self,category_name):
         return self.get_food_dao().get_food_by_category_name(category_name)
     
+    # functions used to add, update, delete and change status of customers and get customers by customer_id or hotel_id
     def create_new_customer(self, customer):
         return self.get_customer_dao().create_customer(customer)
 
@@ -173,13 +182,15 @@ class AstraService(object):
 
     def delete_customer(self, customer_id):
         return self.get_customer_dao().delete_customer(customer_id)
-        
+
+    # functions used to create generate_qr and gets qr_images by email_id    
     def create_generate_qr(self, generateqr):
         return self.get_generate_qr_dao().create_generate_qr(generateqr)
     
     def get_generate_qr_exits(self,email):
         return self.get_generate_qr_dao().get_generate_by_email(email)
 
+    # functions used to create orders and gets orders
     def create_order(self, order):
         return self.get_order_dao().create_order(order)
 
@@ -189,6 +200,7 @@ class AstraService(object):
     def update_order_status(self, hotel_id,customer_id,order_id,time_of_order):
         return self.get_order_dao().update_order_status(hotel_id,customer_id,order_id,time_of_order)
 
+    # functions used create invoices and get invoices
     def create_invoice(self, invoice):
         return self.get_invoice_dao().create_invoice(invoice)
 
@@ -204,6 +216,7 @@ class AstraService(object):
     def get_invoice_by_customer_id(self, customer_id):
         return self.get_invoice_dao().get_invoice_by_customer_id(customer_id)
 
+    # functions used create feedback and get feeddbacks by hotel_id
     def create_feedback(self, feedback):
         return self.get_feedback_dao().create_feedback(feedback)
 
