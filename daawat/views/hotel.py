@@ -46,7 +46,7 @@ class Hotel(View):
                     feedbackList.append(out)
                 for a in feedbackList:
                     sum += float(a["ratings"])
-                starRatings = sum/len(feedbackList)
+                starRatings = round(sum/len(feedbackList),1)
                 data["feedback"] = {"ratings":str(starRatings)}
                 data["feedbacks"] = feedbackList
             else:
@@ -212,7 +212,8 @@ def generate_qr(request):
                     data["qr_details"] = out
                     request.session['table_no'] = table_no
                     return redirect("generate_qr")
- 
+                
+        request.session['table_no'] = table_no
         qr_string = "https://daawat-menu.herokuapp.com/"+hotel_id+"/"+table_no
         image_name = hotel_name+table_no
         GenerateQR(qr_string,image_name)
