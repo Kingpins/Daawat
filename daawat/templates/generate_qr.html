@@ -8,10 +8,10 @@
 
     <div class="col-lg-6 mx-auto" id="">
       <div class="container mt-2">
-        <div class="p-4 m-4">
+        <div class="p-2 m-2">
           <div class=" rounded mx-auto border p-4">
             <div class="text-center col">
-              <img src="{{hotel_details.hotel_logo}}" alt="" class="" style="height: 150px;">
+              <img src="{{hotel_details.hotel_logo}}" alt="" class="" style="height: 130px;">
               <div class="display-8">Generate QR Menu</div>
               <hr>
             </div>
@@ -51,10 +51,10 @@
 
     <div id='' class="col-lg-6 mx-auto">
       <div class="container mt-2">
-        <div class="p-4 m-4">
+        <div class="p-2 m-2">
           <div class="rounded mx-auto border p-4">
             <div class="text-center col mx-auto">
-              <img src="{{qr_details.qr_image}}" alt="QR Imgae will be displayed here." width="300px">
+              <img src="{{qr_details.qr_image}}" alt="QR Image will be displayed here." width="200px">
             </div>
             <div class="text-center col mx-auto">
               For Table No: {{qr_details.table_no}}
@@ -68,7 +68,9 @@
                 {%csrf_token%}
               <input hidden type="text" value="{{qr_details.qr_image}}" name="image_url" />
               <input hidden type="text" value="{{qr_details.table_no}}" name="table_no" />
-              <input type="submit" class="btn btn-outline-info border rounded " value="Print">
+              <button type="submit"  class="btn btn-outline-info border rounded">
+                <i class="fa fa-print" aria-hidden="true"></i> Print
+              </button>
               </form>
             </div>
           </div>

@@ -5,8 +5,8 @@
 {%if request.session.user %}
 <div class="container">
     <div class="border rounded p-4 m-4">
-        <p class="display-4 pl-4 ml-4"><i class="fa fa-list-alt" aria-hidden="true"></i> All Current Orders</p>
-        <p class="display-10 pl-4 ml-4"><a href="/invoices"> <i class="fa fa-database" aria-hidden="true"></i> Invoices</a></p>
+        <p class="display-4 p-2 m-2"><i class="fa fa-list-alt" aria-hidden="true"></i> All Current Orders</p>
+        <p class="display-10 p-2 m-2"><a href="/invoices"><i class="fa fa-database" aria-hidden="true"></i> View Invoices</a></p>
         <hr>
         <div id="accordion">
             {% for customer in customers %}

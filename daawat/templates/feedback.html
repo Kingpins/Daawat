@@ -11,7 +11,7 @@
         <div id='products' class="p-2 col-lg-9 col-xs-9 mx-auto">
             <div class="row mx-auto">
                 {%for feedback in feedbacks%}
-                <div class="card m-2 mx-auto product-card" id={{feedback.customer_id}} style="width: 15rem;"
+                <div class="card m-2 mx-auto product-card" id={{feedback.customer_id}} style="width: 15rem; color:white; background:#2d3436"
                     id="product-card">
                     <div class="card-body">
                         <div class="card-title display-10">{{feedback.customer_name|capfirst}}</div>

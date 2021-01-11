@@ -90,6 +90,25 @@
 <div class="container-fluid mt-3">
   <div class="row">
     <!-- filter -->
+    <div class="col-lg-3 mx-auto" id="mobile_responsive">
+			<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
+				aria-expanded="false" aria-controls="collapseExample">
+				Filter by categories
+			</button>
+			<div class="collapse" id="collapseExample">
+				<div class="list-group">
+					<form action="/hotel" method="POST" style="padding-bottom:20px">
+						{% csrf_token %}
+						<a href="/hotel" class="list-group-item list-group-item-action">All Dishes</a>
+            {% for category in categories %}
+            <input type="hidden" name="currentCategory" value="{{currentCategory}}" />
+            <input type="submit" class="list-group-item list-group-item-action" name="categoryBtn"
+              value="{{category.category_name}}">
+            {% endfor %}
+					</form>
+				</div>
+			</div>
+		</div>
     <div class="col-lg-3 mx-auto" id="desktop_responsive">
       <div class="sticky-top" style="top:70px">
         <div class="list-group">

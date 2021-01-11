@@ -5,7 +5,7 @@
 {% load custom_filter %}
 <div class="container">
     <div class="border rounded p-4 m-4">
-        <p class="display-4 pl-4 ml-4"> Invoices</p>
+        <p class="display-4 p-1 m-1"><i class="fa fa-database" aria-hidden="true"></i> Invoices</p>
         <hr>
         {%include 'messages.html'%}
         <div class="table-responsive">
@@ -42,15 +42,20 @@
                     </tr>
                     {%endfor%}
                 </tbody>
-
-                <tfoot>
-
-                </tfoot>
             </table>
         </div>
+        <nav>
+        <ul class="pagination">      
+                {%if invoices.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{invoices.previous_page_number}}">previous</a></li>
+                {%endif%}
+                <li class="page-item"><span class="page-link" class="current">Page {{invoices.number}} of {{invoices.paginator.num_pages}}. </span></li>
+                {%if invoices.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{invoices.next_page_number}}">next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{invoices.paginator.num_pages}}">last &raquo;</a></li>
+                {%endif%}
+        </ul>
+    </nav>
     </div>
 </div>
-
-
-
 {% endblock %}

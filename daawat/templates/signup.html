@@ -4,21 +4,15 @@
 {% block content %}
 
 <div class="container mt-4">
-    
-    <div class="p-4 m-4">
-
-        
+    <div class="p-2 m-2">
         <div class="col-lg-5 rounded mx-auto border pt-4">
             <div class="text-center col">
-            
                 <img 
                 src="{% static 'images/cutlery.png' %}" alt=""
                 class="" style="height: 150px;">
-            <!-- <hr> -->
             <div class="display-8 p-2">Create An Account</div>
             <hr>
             </div>
-            <h3 hidden class="alert alert-light border rounded">Create An Account</h3>
             <form action="/signup" method="POST">
                 
                 {% csrf_token %}
