@@ -123,7 +123,7 @@ class Hotel(View):
             data["categories"] = list(result_category)
         data['category_exists'] = categoryExists
         if categoryID:
-            products = astra_service.get_food_by_category_name(categoryName)
+            products = astra_service.get_food_by_category_name(categoryName,userEmail)
             categoryNameforDisplay = categoryName
         else:
             products = astra_service.get_food_by_email(userEmail)
