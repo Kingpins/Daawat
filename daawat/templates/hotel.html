@@ -77,8 +77,10 @@
         class="btn btn-outline-info border rounded  col-lg-2 "><i class="fa fa-plus-square" aria-hidden="true"></i> Add Food</a>
         <a href="/generate_qr" 
         class="btn btn-outline-info border rounded  col-lg-2 "> <i class="fa fa-qrcode" aria-hidden="true"></i> Generate QR</a>
+	{% if feedbackExists %}
         <a href="/feedbacks" 
         class="btn btn-outline-info border rounded  col-lg-2 "> <i class="fa fa-comment" aria-hidden="true"></i> Feedbacks</a>
+	{% endif %}
       {% endif %}
     </div>
   </div>
