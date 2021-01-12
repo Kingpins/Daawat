@@ -15,7 +15,7 @@ class FoodsDAO(object):
 
     select_all_foods_for_email = 'SELECT * FROM {table_name} WHERE useremail = :useremail ALLOW FILTERING;' \
                                               ''.format(table_name=table_name)
-    select_food_for_category_name = 'SELECT * FROM {table_name} WHERE category_name = :category_name ALLOW FILTERING;' \
+    select_food_for_category_name = 'SELECT * FROM {table_name} WHERE useremail = :useremail and category_name = :category_name ALLOW FILTERING;' \
                                               ''.format(table_name=table_name)                                          
     select_food_for_food_id = 'SELECT * FROM {table_name} WHERE food_id = :food_id ALLOW FILTERING;' \
                                               ''.format(table_name=table_name)                        
@@ -87,9 +87,10 @@ class FoodsDAO(object):
             'useremail': email}
         ))
         return result
-    def get_food_by_category_name(self,category_name):
+    def get_food_by_category_name(self,category_name,userEmail):
         result = self._session.execute(self.select_food_for_category_name_prep_stmt.bind({
-            'category_name': category_name}
+            'category_name': category_name,
+            'useremail': userEmail}
         ))
         return result
 
