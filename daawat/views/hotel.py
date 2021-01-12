@@ -82,6 +82,8 @@ class Hotel(View):
         # Variable declarations and POST request parameters.
         userEmail = str(request.session['user'])
         data = {}
+        feedbackList = []
+        sum = 0
         error_message = None
         categoryID = None
         categoryNameforDisplay = None
@@ -98,7 +100,7 @@ class Hotel(View):
                 request.session["hotel_id"] = out["hotel_id"]
                 hotel_id = request.session["hotel_id"]
                 
-        feedbackExists = astra_service.get_feedbacks_exists(hotel_id)
+            feedbackExists = astra_service.get_feedbacks_exists(hotel_id)
             if feedbackExists:
                 data["feedbackExists"] = True
                 feedbacks = astra_service.get_feedbacks_by_hotel_id(hotel_id)
