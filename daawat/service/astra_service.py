@@ -161,8 +161,8 @@ class AstraService(object):
     def get_food_by_food_ids(self,food_ids):
         return self.get_food_dao().get_food_by_food_ids(food_ids)
 
-    def get_food_by_category_name(self,category_name):
-        return self.get_food_dao().get_food_by_category_name(category_name)
+    def get_food_by_category_name(self,category_name,email):
+        return self.get_food_dao().get_food_by_category_name(category_name,email)
     
     # functions used to add, update, delete and change status of customers and get customers by customer_id or hotel_id
     def create_new_customer(self, customer):
