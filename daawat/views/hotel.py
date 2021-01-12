@@ -89,7 +89,7 @@ class Hotel(View):
         currentCategory = request.POST.get('currentCategory')
         
    
-        # The following logic is used to giveaway food to template based on the categories selected.
+        # Hotel and feedbacks checking
         hotelExists = astra_service.get_hotel_exits(userEmail)
         if hotelExists:
             result = astra_service.get_hotel_by_email(userEmail)
@@ -97,7 +97,21 @@ class Hotel(View):
                 data["hotel_details"] = out
                 request.session["hotel_id"] = out["hotel_id"]
                 hotel_id = request.session["hotel_id"]
-    
+                
+        feedbackExists = astra_service.get_feedbacks_exists(hotel_id)
+            if feedbackExists:
+                data["feedbackExists"] = True
+                feedbacks = astra_service.get_feedbacks_by_hotel_id(hotel_id)
+                for out in feedbacks:
+                    feedbackList.append(out)
+                for a in feedbackList:
+                    sum += float(a["ratings"])
+                starRatings = round(sum/len(feedbackList),1)
+                data["feedback"] = {"ratings":str(starRatings)}
+                data["feedbacks"] = feedbackList
+            else:
+                data["feedbackExists"] = False
+        # The following logic is used to giveaway food to template based on the categories selected.
         if categoryName:
             categoryID = astra_service.get_category_id_by_category_name(categoryName)
 
@@ -152,6 +166,7 @@ class Hotel(View):
                 }
         return render(request, 'hotel.html', data)
 
+    
 def print_qr(request):
     if request.method == "GET":
         pass
