@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<!-- Welcome message container -->
 <div class="container-fluid" style="margin:0px;padding:20px;">
 	{%include 'messages.html'%}
 	<div class="container">
@@ -16,6 +17,7 @@
 	</div>
 </div>
 
+<!-- Auto-typing effect container with Signup or Dashboard access -->
 <div class="container-fluid" style="margin:0px;padding:50px;">
 	<div class="container rounded" style="padding:20px; box-shadow: 20px 20px 50px 10px grey;">
 		<div class="row">
@@ -35,6 +37,7 @@
 	</div>
 </div>
 
+<!-- Carousel container -->
 <div class="container-fluid" style="padding-top:45px;padding-bottom:35px;background-color:blanchedalmond" id="about">
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<ol class="carousel-indicators">
@@ -74,8 +77,8 @@
 				<div class="container">
 					<div class="row" style="text-align: center;">
 						<div class="col-lg-6" style="margin:auto;text-align:left">
-							<h2 class="heading">Astra Datastax cloud-site</h2>
-							<p class="lead">The site is designed with the upmost security, middleware and have a strong backend of Astra Datastax CQL, Thus allowing user to take good control of hotel management.</p>
+							<h2 class="heading">Datastax Astra cloud-site</h2>
+							<p class="lead">The site is designed with the upmost security, middleware and have a strong backend of Datastax Astra CQL, Thus allowing user to take good control of hotel management.</p>
 						</div>
 						<div class="col-lg-6 pb-4" style="margin: auto;">
 							<img height="250px" src="{% static 'images/operating-system.png' %}" alt="Third slide">
@@ -95,7 +98,7 @@
 	</div>
 </div>
 
-
+<!-- Working demo Screenshot of Daawat -->
 <div class="container-fluid" style="background:#f2f2f2;margin:0px;padding:20px;">
 	<div class="container">
 		<div class="row">
@@ -110,7 +113,7 @@
 	</div>
 </div>
 
-
+<!-- How it works? container -->
 <div class="container-fluid" style="padding-top:45px;padding-bottom:35px">
 	<h1 class="heading" class="mb-4" style="text-align: center;">How it works ?</h1>
 	<div class="container">
@@ -119,18 +122,18 @@
 				<img height="200px" class="pb-4" src="{% static 'images/qr.png' %}" />
 				<h2 class="heading">Scanning QR code</h2>
 				<p class="lead">The customer will scan the QR code through his mobile, and the whole menu of your restaurant will be displayed in his device. </p>
-			</div><!-- /.col-lg-4 -->
+			</div>
 			<div class="col-lg-4">
 				<img height="200px" class="pb-4" src="{% static 'images/service1.jpg' %}" />
 				<h2 class="heading">Place order</h2>
 				<p class="lead">The customer will start placing the order, until he clicks make my bill option which will also be available in his very own device.</p>
-			</div><!-- /.col-lg-4 -->
+			</div>
 			<div class="col-lg-4">
 				<img height="200px" class="pb-4" src="{% static 'images/moniter.png' %}" />
 				<h2 class="heading">Monitoring</h2>
 				<p class="lead">Your job as an owner is to sit relax and monitor all the activities from your Dashboard, and start serving Daawat with our Daawat!</p>
-			</div><!-- /.col-lg-4 -->
-		</div><!-- /.row -->
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}
