@@ -53,8 +53,9 @@ def hotel_exists(data,hotel_id):
         for out in result:
             data["hotel_details"] = out
             data["hotel_exists"] = True
+            useremail = out["useremail"]
             HotelName = out["hotel_name"]
-    return data,HotelName
+    return data,HotelName,useremail
 
 
 def add_customer(request):
@@ -67,7 +68,7 @@ def add_customer(request):
             request.session['cart'] = {}
         hotel_id = request.session["hotel_id"] 
         table_no = request.session["table_no"] 
-        data,HotelName = hotel_exists(data,hotel_id)
+        data,HotelName,userEmail = hotel_exists(data,hotel_id)
         customer_id = request.session["customer_id"] 
         if customer_id != None:
             customer_status = astra_service.customer_status_by_customer_id(customer_id)
@@ -106,18 +107,18 @@ def main_menu(request):
         if "customer_id" not in request.session :
             return HttpResponse("This is either trespassing or you could have completed the dining, Thank You, Visit Again")
         hotel_id = request.session["hotel_id"] 
-        hotel_exists(data,hotel_id)
+        data,HotelName,userEmail = hotel_exists(data,hotel_id)
         category_name = request.session["category_name"] 
-        result = astra_service.get_food_by_category_name(category_name)
+        result = astra_service.get_food_by_category_name(category_name,userEmail)
         data["foods"] = result
         return render(request, 'menu_items.html',data) 
     if request.method =="POST":
         data = {}
         hotel_id = request.session["hotel_id"] 
-        hotel_exists(data,hotel_id)
+        data,HotelName,userEmail=hotel_exists(data,hotel_id)
         category_name = request.POST.get("category_name")
         request.session["category_name"] = category_name
-        result = astra_service.get_food_by_category_name(category_name)
+        result = astra_service.get_food_by_category_name(category_name,userEmail)
         data["foods"] = result
         return render(request, 'menu_items.html',data) 
 
@@ -126,11 +127,11 @@ def main_items(request):
         data = {}
         foodList = []
         hotel_id = request.session["hotel_id"] 
-        hotel_exists(data,hotel_id)
+        data,HotelName,userEmail = hotel_exists(data,hotel_id)
         if "category_name" not in request.session :
             return HttpResponse("This is either trespassing or you could have completed the dining, Thank You, Visit Again")
         category_name = request.session["category_name"] 
-        result = astra_service.get_food_by_category_name(category_name)
+        result = astra_service.get_food_by_category_name(category_name,userEmail)
         for out in result:
             foodList.append(out)
         data["foods"] = foodList
@@ -138,9 +139,9 @@ def main_items(request):
     if request.method =="POST":
         data = {}
         hotel_id = request.session["hotel_id"] 
-        hotel_exists(data,hotel_id)
+        data,HotelName,userEmail = hotel_exists(data,hotel_id)
         category_name = request.session["category_name"] 
-        result = astra_service.get_food_by_category_name(category_name)
+        result = astra_service.get_food_by_category_name(category_name,userEmail)
         data["foods"] = result
 
         product = request.POST.get('product')
