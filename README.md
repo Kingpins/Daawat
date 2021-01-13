@@ -12,10 +12,14 @@
 - Jinja
 - HTML5, Bootstrap v4, JQuery
 
+### Project in live:
+- Daawat is deployed in Heroku PaaS.
+- [Daawat - A new revolution in hotels](https://daawat-menu.herokuapp.com/)
+
 ### Project Screenshots:
 <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(1).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Silde%20(2).jpg" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(4).JPG" width="400px"/> 
-<img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(5).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(1).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(11).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(13).JPG" width="400px"/> 
+<img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(5).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(11).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(13).JPG" width="400px"/> 
 
 ### Demo:
- [![File Search Engine](https://img.youtube.com/vi/A7ofYpImDXg/0.jpg)](https://www.youtube.com/watch?v=A7ofYpImDXg)
+ [![Daawat](https://img.youtube.com/vi/A7ofYpImDXg/0.jpg)](https://www.youtube.com/watch?v=A7ofYpImDXg)
 
