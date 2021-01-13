@@ -13,7 +13,7 @@
 - HTML5, Bootstrap v4, JQuery
 
 ### Project Screenshots:
-<img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(1).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(2).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(4).JPG" width="400px"/> 
+<img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(1).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Silde%20(2).jpg" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(4).JPG" width="400px"/> 
 <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(5).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(1).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(11).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(13).JPG" width="400px"/> 
 
 ### Demo:
