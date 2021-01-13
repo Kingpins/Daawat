@@ -13,8 +13,10 @@
 - HTML5, Bootstrap v4, JQuery
 
 ### Project in live:
-- Daawat is deployed in Heroku PaaS. Link is provided below,
-- [Daawat - A new revolution in hotels](https://daawat-menu.herokuapp.com/)
+- Daawat is deployed in Heroku PaaS. Link is provided as follows, [Daawat - A new revolution in hotels](https://daawat-menu.herokuapp.com/)
+- For login purpose, you could use the following email-id and password or you could also create a new account
+- Email-id : `amburshabaz@gmail.com`
+- Password : `123456`
 
 ### Project Screenshots:
 <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(1).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Silde%20(2).jpg" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(4).JPG" width="400px"/> 
