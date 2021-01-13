@@ -13,7 +13,7 @@
 - HTML5, Bootstrap v4, JQuery
 
 ### Project in live:
-- Daawat is deployed in Heroku PaaS.
+- Daawat is deployed in Heroku PaaS. Link is provided below,
 - [Daawat - A new revolution in hotels](https://daawat-menu.herokuapp.com/)
 
 ### Project Screenshots:
