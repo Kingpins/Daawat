@@ -3,13 +3,6 @@
 <p>Daawat is an online digitalized hotel menu cloud-native web application, developed using Python, Django and Datastax Astra database which provides more scalability and robustness to the site.<br/>
 <p>It is a comprehensive technique to introduce a new strategy in hotel management by introducing menu-less restaurant, turning customers mobile phone into a menu card and digitize the whole process, there are no dependencies for customers as like downloading an application, it is very well designed with optimized database of Datastax Astra and effective control over the process.
 
-### Requirements :
-1.`pip install Flask`
-2.`pip install Flask-SQLAlchemy`
-
-After installing type python in terminal and open Python environment then write `from view_file import db` atlast write `db.create_all()`
-
-finally  run **View_file.py**
 
 ### Tech Stack:
 - MVT web framework with Service and DAOs layers
@@ -20,7 +13,8 @@ finally  run **View_file.py**
 - HTML5, Bootstrap v4, JQuery
 
 ### Project Screenshots:
-<img src="https://github.com/SaadFurqhan/FileSearchEngine/blob/master/pics/Slide1.JPG" width="800px"/> <img src="https://github.com/SaadFurqhan/FileSearchEngine/blob/master/pics//Slide2.JPG" width="800px"/> <img src="https://github.com/SaadFurqhan/FileSearchEngine/blob/master/pics/Slide3.JPG" width="800px"/>
+<img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(1).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(2).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(4).JPG" width="400px"/> 
+<img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(5).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(1).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(11).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(13).JPG" width="400px"/> 
 
 ### Demo:
  [![File Search Engine](https://img.youtube.com/vi/A7ofYpImDXg/0.jpg)](https://www.youtube.com/watch?v=A7ofYpImDXg)
