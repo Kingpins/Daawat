@@ -1,7 +1,7 @@
 import pyrebase
 # configuration for firebase storage and database
 config = {
-    "apiKey": "AIzaSyCi5-vfmk7VW2xFtgacj3_arjL04KeaW2A",
+    "apiKey": "", # API KEY
     "authDomain": "dawaat-9e0f1.firebaseapp.com",
     "databaseURL":"https://dawaat-9e0f1-default-rtdb.firebaseio.com",
     "projectId": "dawaat-9e0f1",
