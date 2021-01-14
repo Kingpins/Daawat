@@ -23,5 +23,5 @@
 <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(5).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(11).JPG" width="400px"/> <img src="https://github.com/Kingpins/Daawat/blob/main/projectScreenshot/Slide%20(13).JPG" width="400px"/> 
 
 ### Demo:
- [![Daawat](https://img.youtube.com/vi/hnALgs-I2zo/3.jpg)](https://www.youtube.com/watch?v=hnALgs-I2zo)
+ [![Daawat](https://img.youtube.com/vi/hnALgs-I2zo/0.jpg)](https://www.youtube.com/watch?v=hnALgs-I2zo)
 
