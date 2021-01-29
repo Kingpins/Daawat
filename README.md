@@ -14,7 +14,7 @@
 
 ### Project in live:
 - Daawat is deployed in Heroku PaaS. Link is provided as follows, [Daawat - A new revolution in hotels](https://daawat-menu.herokuapp.com/)
-- For login purpose, you could use the following email-id and password or you could also create a new account
+- For login purpose, you can use the following email-id and password or you could also create a new account
 - Email-id : `amburshabaz@gmail.com`
 - Password : `123456`
 - NOTE : The API key and password is removed from code for security purpose.
