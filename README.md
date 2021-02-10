@@ -7,7 +7,7 @@
 - MVT web framework with Service and DAOs layers
 - Python 3, Django 
 - Datastax Astra
-- gTTS
+- gTTS (Google Test to Speech)
 - Firebase Storage
 - Jinja
 - HTML5, Bootstrap v4, JQuery
