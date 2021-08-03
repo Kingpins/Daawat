@@ -11,8 +11,8 @@ class SessionManager(object):
     path_for_bundle = os.path.join(BASE_DIR,'dao/creds.zip')
 
     __instance = None
-    username = "amburshabaz@gmail.com" # USERNAME
-    password = "Shabaz@218" # PASSWORD
+    username = "WLwLEOTwZALTXyKvPprvjfll" # USERNAME
+    password = "g5xyTMQNfrZGNhnlF7nTT4S4toB-xbFYUIsGC_c7STq,92IPxN,ojz_i-Itzi0D-i2uWZGjUStOf1,CZyrscYjxuGEwLfuR_uHXirda9Ya8i6RCcmomkMy0q,9_h7Yj9" # PASSWORD
     keyspace = "dms" # DMS name
     secure_connect_bundle_path = path_for_bundle
     initialized = True
